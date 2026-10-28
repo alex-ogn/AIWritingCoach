@@ -100,4 +100,12 @@ public class Profile : Entity, IOptionallyUserOwned
     public int? MaxWords { get; set; }
 
     public int SortOrder { get; set; }
+
+    /// <summary>
+    /// Task types a text written with this profile may have: the main one plus <see cref="OtherTaskTypes"/>,
+    /// or every type for a general profile (task type <see cref="WritingTaskType.Other"/>).
+    /// </summary>
+    public IReadOnlyList<WritingTaskType> AllowedTaskTypes() => TaskType == WritingTaskType.Other
+        ? Enum.GetValues<WritingTaskType>()
+        : [TaskType, .. OtherTaskTypes.Where(t => t != TaskType).Distinct()];
 }

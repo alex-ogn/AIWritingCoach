@@ -132,6 +132,32 @@ public sealed class AppDbContextTests : IDisposable
         }
     }
 
+    [Theory]
+    [InlineData("c1-essay", new[] { WritingTaskType.Essay })]
+    [InlineData("business-email", new[] { WritingTaskType.Email })]
+    [InlineData("c1-report", new[] { WritingTaskType.Report, WritingTaskType.Proposal, WritingTaskType.Email, WritingTaskType.Letter, WritingTaskType.Review })]
+    [InlineData("b1-article-story", new[] { WritingTaskType.Article, WritingTaskType.Story })]
+    public async Task Profiles_allow_only_their_own_task_types(string profileKey, WritingTaskType[] expected)
+    {
+        await using var db = Context(Alice);
+        await new DataSeeder(NullLogger<DataSeeder>.Instance).SeedAsync(db);
+
+        var profile = await db.Profiles.SingleAsync(p => p.Key == profileKey);
+
+        Assert.Equal(expected, profile.AllowedTaskTypes());
+    }
+
+    [Fact]
+    public async Task Quick_proofread_allows_every_task_type()
+    {
+        await using var db = Context(Alice);
+        await new DataSeeder(NullLogger<DataSeeder>.Instance).SeedAsync(db);
+
+        var profile = await db.Profiles.SingleAsync(p => p.Key == "quick-proofread");
+
+        Assert.Equal(Enum.GetValues<WritingTaskType>(), profile.AllowedTaskTypes());
+    }
+
     private sealed class TestUser(Guid id) : ICurrentUser
     {
         public Guid UserId => id;

@@ -37,7 +37,7 @@
 
     <MudSelect T="WritingTaskType" @bind-Value="_document.TaskType" Disabled="TaskTypeLocked" Label="@L["Write.TaskType"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-task"
                ToStringFunc="@(t => L[$"TaskType.{t}"])">
-        @foreach (var type in Enum.GetValues<WritingTaskType>())
+        @foreach (var type in AllowedTaskTypes)
         {
             <MudSelectItem T="WritingTaskType" Value="type">@L[$"TaskType.{type}"]</MudSelectItem>
         }
@@ -274,12 +274,14 @@
         _document.TargetLevel = profile.TargetLevel;
     }
 
-    // Exam profiles (A2–C2) fix both level and task type, so their rubric and word limits always fit.
-    // A profile for a specific kind of text (Business email) fixes the task type but not the level;
-    // Quick proofread (task type "Other") leaves both free.
+    // Exam profiles (A2–C2) fix the level, so their rubric and word limits always fit. Task type is limited
+    // to the profile's own types (C1 Report / Proposal: report, proposal, email, letter, review) and is
+    // locked when there is only one (C1 Essay, Business email). Quick proofread leaves both free.
     private bool LevelLocked => _profile is not null && IsExamProfile(_profile);
 
-    private bool TaskTypeLocked => _profile is not null && (LevelLocked || _profile.TaskType != WritingTaskType.Other);
+    private IReadOnlyList<WritingTaskType> AllowedTaskTypes => _profile?.AllowedTaskTypes() ?? Enum.GetValues<WritingTaskType>();
+
+    private bool TaskTypeLocked => AllowedTaskTypes.Count <= 1;
 
     private bool IsExamProfile(Profile profile) =>
         _rubrics.Any(r => r.Id == profile.RubricId && r.Kind == RubricKind.Exam);
