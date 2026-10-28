@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AIWritingCoach.Core/AIWritingCoach.Core.csproj" />
+    <Project Path="src/AIWritingCoach.Infrastructure/AIWritingCoach.Infrastructure.csproj" />
+    <Project Path="src/AIWritingCoach.Migrations.SqlServer/AIWritingCoach.Migrations.SqlServer.csproj" />
+    <Project Path="src/AIWritingCoach.Web/AIWritingCoach.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AIWritingCoach.Tests/AIWritingCoach.Tests.csproj" />
+  </Folder>
+</Solution>
