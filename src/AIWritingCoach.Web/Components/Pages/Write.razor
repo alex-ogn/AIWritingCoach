@@ -28,14 +28,14 @@
         }
     </MudSelect>
 
-    <MudSelect T="CefrLevel" Value="_document.TargetLevel" ValueChanged="OnLevelChanged" Label="@L["Write.Level"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-small">
+    <MudSelect T="CefrLevel" @bind-Value="_document.TargetLevel" Disabled="LevelLocked" Label="@L["Write.Level"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-small">
         @foreach (var level in Enum.GetValues<CefrLevel>())
         {
             <MudSelectItem T="CefrLevel" Value="level">@level</MudSelectItem>
         }
     </MudSelect>
 
-    <MudSelect T="WritingTaskType" Value="_document.TaskType" ValueChanged="OnTaskTypeChanged" Label="@L["Write.TaskType"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-task"
+    <MudSelect T="WritingTaskType" @bind-Value="_document.TaskType" Disabled="TaskTypeLocked" Label="@L["Write.TaskType"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-task"
                ToStringFunc="@(t => L[$"TaskType.{t}"])">
         @foreach (var type in Enum.GetValues<WritingTaskType>())
         {
@@ -171,7 +171,7 @@
         Inline,
     }
 
-    private const string DefaultProfileKey = "b2-essay";
+    private const string DefaultProfileKey = "quick-proofread";
 
     [Parameter]
     public Guid? Id { get; set; }
@@ -226,7 +226,7 @@
         }
         else
         {
-            await NewDocumentAsync();
+            NewDocument();
         }
     }
 
@@ -248,13 +248,9 @@
         _viewMode = _session is not null && !IsStale ? ViewMode.Inline : ViewMode.Edit;
     }
 
-    /// <summary>New texts start with the profile of the most recently edited text (B2 Essay the first time).</summary>
-    private async Task NewDocumentAsync()
+    private void NewDocument()
     {
-        var lastProfileId = await Documents.GetLastUsedProfileIdAsync();
-        _profile = _profiles.FirstOrDefault(p => p.Id == lastProfileId)
-            ?? _profiles.FirstOrDefault(p => p.Key == DefaultProfileKey)
-            ?? _profiles.FirstOrDefault();
+        _profile = _profiles.FirstOrDefault(p => p.Key == DefaultProfileKey) ?? _profiles.FirstOrDefault();
         _document = new WritingDocument
         {
             TaskType = _profile?.TaskType ?? WritingTaskType.Essay,
@@ -271,52 +267,22 @@
 
     private void OnProfileChanged(Profile profile)
     {
-        ApplyProfile(profile);
-        _document!.TaskType = profile.TaskType;
-        _document.TargetLevel = profile.TargetLevel;
-    }
-
-    private void OnLevelChanged(CefrLevel level)
-    {
-        _document!.TargetLevel = level;
-        SyncExamProfile();
-    }
-
-    private void OnTaskTypeChanged(WritingTaskType taskType)
-    {
-        _document!.TaskType = taskType;
-        SyncExamProfile();
-    }
-
-    /// <summary>
-    /// Exam rubric and word limits depend on level and task type, so changing either switches to the
-    /// matching exam profile (B2 → C1 essay gets the C1 rubric and 220–260 words). Non-exam profiles
-    /// (business email, quick proofread) are kept as they are.
-    /// </summary>
-    private void SyncExamProfile()
-    {
-        if (_profile is not null && !IsExamProfile(_profile))
-        {
-            return;
-        }
-
-        var match = ProfileMatcher.FindExamProfile(_profiles, _rubrics, _document!.TargetLevel, _document.TaskType);
-        if (match is not null && match != _profile)
-        {
-            ApplyProfile(match);
-            Snackbar.Add(L["Write.ProfileSwitched", match.Name], Severity.Info);
-        }
-    }
-
-    private bool IsExamProfile(Profile profile) =>
-        _rubrics.Any(r => r.Id == profile.RubricId && r.Kind == RubricKind.Exam);
-
-    private void ApplyProfile(Profile profile)
-    {
         _profile = profile;
         _selectedCriteria = [.. profile.CriterionKeys];
         _document!.ProfileId = profile.Id;
+        _document.TaskType = profile.TaskType;
+        _document.TargetLevel = profile.TargetLevel;
     }
+
+    // Exam profiles (A2–C2) fix both level and task type, so their rubric and word limits always fit.
+    // A profile for a specific kind of text (Business email) fixes the task type but not the level;
+    // Quick proofread (task type "Other") leaves both free.
+    private bool LevelLocked => _profile is not null && IsExamProfile(_profile);
+
+    private bool TaskTypeLocked => _profile is not null && (LevelLocked || _profile.TaskType != WritingTaskType.Other);
+
+    private bool IsExamProfile(Profile profile) =>
+        _rubrics.Any(r => r.Id == profile.RubricId && r.Kind == RubricKind.Exam);
 
     /// <summary>The profile's own rubric first, then every custom-criteria rubric.</summary>
     private IEnumerable<(Rubric Rubric, IReadOnlyList<RubricCriterion> Criteria)> CriteriaPool()

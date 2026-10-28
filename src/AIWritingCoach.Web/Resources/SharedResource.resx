@@ -98,5 +98,4 @@
   <data name="Settings.ApiKeyMissing" xml:space="preserve"><value>Missing</value></data>
   <data name="Settings.ApiKeyHelp" xml:space="preserve"><value>Set it with user-secrets and restart the app:</value></data>
   <data name="TaskType.Story" xml:space="preserve"><value>Story</value></data>
-  <data name="Write.ProfileSwitched" xml:space="preserve"><value>Switched to profile "{0}" (its rubric and word limits).</value></data>
 </root>

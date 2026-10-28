@@ -132,29 +132,6 @@ public sealed class AppDbContextTests : IDisposable
         }
     }
 
-    [Theory]
-    [InlineData(CefrLevel.A2, WritingTaskType.Story, "a2-story")]
-    [InlineData(CefrLevel.A2, WritingTaskType.Letter, "a2-email")]
-    [InlineData(CefrLevel.B1, WritingTaskType.Story, "b1-article-story")]
-    [InlineData(CefrLevel.B2, WritingTaskType.Essay, "b2-essay")]
-    [InlineData(CefrLevel.B2, WritingTaskType.Email, "b2-email")]
-    [InlineData(CefrLevel.B2, WritingTaskType.Report, "b2-review")]
-    [InlineData(CefrLevel.C1, WritingTaskType.Essay, "c1-essay")]
-    [InlineData(CefrLevel.C1, WritingTaskType.Proposal, "c1-report")]
-    [InlineData(CefrLevel.C2, WritingTaskType.Essay, "c2-essay")]
-    [InlineData(CefrLevel.C2, WritingTaskType.Review, "c2-part2")]
-    [InlineData(CefrLevel.C2, WritingTaskType.Other, "c2-essay")]
-    [InlineData(CefrLevel.A1, WritingTaskType.Essay, null)]
-    public async Task Level_and_task_type_pick_the_matching_exam_profile(CefrLevel level, WritingTaskType taskType, string? expectedKey)
-    {
-        await using var db = Context(Alice);
-        await new DataSeeder(NullLogger<DataSeeder>.Instance).SeedAsync(db);
-
-        var match = ProfileMatcher.FindExamProfile(await db.Profiles.ToListAsync(), await db.Rubrics.ToListAsync(), level, taskType);
-
-        Assert.Equal(expectedKey, match?.Key);
-    }
-
     private sealed class TestUser(Guid id) : ICurrentUser
     {
         public Guid UserId => id;

@@ -100,23 +100,4 @@ public class Profile : Entity, IOptionallyUserOwned
     public int? MaxWords { get; set; }
 
     public int SortOrder { get; set; }
-
-    public bool Covers(WritingTaskType taskType) => TaskType == taskType || OtherTaskTypes.Contains(taskType);
-}
-
-public static class ProfileMatcher
-{
-    /// <summary>
-    /// The exam profile for a level and task type: an exact task match first, then one that also
-    /// covers the task, then any profile of that level. Null when no exam profile has that level.
-    /// </summary>
-    public static Profile? FindExamProfile(IEnumerable<Profile> profiles, IEnumerable<Rubric> rubrics, CefrLevel level, WritingTaskType taskType)
-    {
-        var examRubrics = rubrics.Where(r => r.Kind == RubricKind.Exam).Select(r => r.Id).ToHashSet();
-        return profiles
-            .Where(p => p.TargetLevel == level && examRubrics.Contains(p.RubricId))
-            .OrderBy(p => p.TaskType == taskType ? 0 : p.Covers(taskType) ? 1 : 2)
-            .ThenBy(p => p.SortOrder)
-            .FirstOrDefault();
-    }
 }

@@ -66,8 +66,6 @@ public class WritingCoachServiceTests
         public Task<WritingDocument?> GetAsync(Guid id, CancellationToken cancellationToken = default) =>
             Task.FromResult(Items.FirstOrDefault(d => d.Id == id));
 
-        public Task<Guid?> GetLastUsedProfileIdAsync(CancellationToken cancellationToken = default) => throw new NotSupportedException();
-
         public Task SaveAsync(WritingDocument document, CancellationToken cancellationToken = default)
         {
             if (!Items.Contains(document))
