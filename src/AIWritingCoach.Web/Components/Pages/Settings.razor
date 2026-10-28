@@ -15,10 +15,16 @@
 
     <MudPaper Class="pa-4 mb-4" Elevation="1">
         <MudText Typo="Typo.h6" Class="mb-2">@L["Settings.Language"]</MudText>
-        <MudSelect T="string" Value="_culture" ValueChanged="ChangeCulture" Label="@L["Settings.Language"]" Variant="Variant.Outlined" Margin="Margin.Dense">
-            <MudSelectItem T="string" Value="@("en")">English</MudSelectItem>
-            <MudSelectItem T="string" Value="@("bg")">Български</MudSelectItem>
-        </MudSelect>
+        @* Plain links with a target are not intercepted by the Blazor router, so the browser does a full
+           page load of the /culture/set endpoint (a server-side forceLoad navigation is cut off mid-call
+           when the page unloads and logs a TaskCanceledException). *@
+        <div class="d-flex gap-2">
+            @foreach (var (culture, name) in Languages)
+            {
+                <MudButton Href="@CultureUrl(culture)" Target="_top" Variant="@(culture == _culture ? Variant.Filled : Variant.Outlined)"
+                           Color="Color.Primary" Size="Size.Small">@name</MudButton>
+            }
+        </div>
     </MudPaper>
 
     <MudPaper Class="pa-4" Elevation="1">
@@ -52,9 +58,11 @@
 @code {
     private string _culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-    private void ChangeCulture(string culture)
+    private static readonly (string Culture, string Name)[] Languages = [("en", "English"), ("bg", "Български")];
+
+    private string CultureUrl(string culture)
     {
         var redirect = Uri.EscapeDataString("/" + Navigation.ToBaseRelativePath(Navigation.Uri));
-        Navigation.NavigateTo($"/culture/set?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}", forceLoad: true);
+        return $"/culture/set?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}";
     }
 }
