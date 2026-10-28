@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Common.Cancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="Common.Close" xml:space="preserve"><value>Затвори</value></data>
+  <data name="Common.Delete" xml:space="preserve"><value>Изтрий</value></data>
+  <data name="Common.Search" xml:space="preserve"><value>Търсене</value></data>
+  <data name="Nav.Write" xml:space="preserve"><value>Писане</value></data>
+  <data name="Nav.History" xml:space="preserve"><value>История</value></data>
+  <data name="Nav.Progress" xml:space="preserve"><value>Напредък</value></data>
+  <data name="Nav.Vocabulary" xml:space="preserve"><value>Речник</value></data>
+  <data name="Nav.Settings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="Nav.Toggle" xml:space="preserve"><value>Покажи/скрий менюто</value></data>
+  <data name="Nav.Theme" xml:space="preserve"><value>Тъмна/светла тема</value></data>
+  <data name="Error.Unhandled" xml:space="preserve"><value>Възникна неочаквана грешка.</value></data>
+  <data name="Error.Reload" xml:space="preserve"><value>Презареди</value></data>
+  <data name="Write.PageTitle" xml:space="preserve"><value>Писане – AI Writing Coach</value></data>
+  <data name="Write.Profile" xml:space="preserve"><value>Профил</value></data>
+  <data name="Write.Level" xml:space="preserve"><value>Ниво</value></data>
+  <data name="Write.TaskType" xml:space="preserve"><value>Тип задача</value></data>
+  <data name="Write.Criteria" xml:space="preserve"><value>Критерии ({0})</value></data>
+  <data name="Write.View.Edit" xml:space="preserve"><value>Редакция</value></data>
+  <data name="Write.View.SideBySide" xml:space="preserve"><value>Една до друга</value></data>
+  <data name="Write.View.Inline" xml:space="preserve"><value>В текста</value></data>
+  <data name="Write.Words" xml:space="preserve"><value>{0} думи{1}</value></data>
+  <data name="Write.Check" xml:space="preserve"><value>Провери</value></data>
+  <data name="Write.Checking" xml:space="preserve"><value>Проверява се…</value></data>
+  <data name="Write.TogglePanel" xml:space="preserve"><value>Покажи/скрий резултатите</value></data>
+  <data name="Write.New" xml:space="preserve"><value>Нов текст</value></data>
+  <data name="Write.TitlePlaceholder" xml:space="preserve"><value>Текст без заглавие</value></data>
+  <data name="Write.TaskPrompt" xml:space="preserve"><value>Условие на задачата (по избор)</value></data>
+  <data name="Write.ContentPlaceholder" xml:space="preserve"><value>Започнете да пишете текста си тук…</value></data>
+  <data name="Write.Stale" xml:space="preserve"><value>Текстът е променен след последната проверка. Натиснете „Провери“ отново за нови корекции.</value></data>
+  <data name="Write.CheckDone" xml:space="preserve"><value>Проверката приключи: предложени са {0} промени.</value></data>
+  <data name="Write.Applied" xml:space="preserve"><value>Приетите промени са приложени в текста.</value></data>
+  <data name="Diff.Original" xml:space="preserve"><value>Оригинал</value></data>
+  <data name="Diff.Corrected" xml:space="preserve"><value>Коригиран</value></data>
+  <data name="Diff.Previous" xml:space="preserve"><value>Предишна промяна</value></data>
+  <data name="Diff.Next" xml:space="preserve"><value>Следваща промяна</value></data>
+  <data name="Diff.Summary" xml:space="preserve"><value>{0} промени, {1} приети</value></data>
+  <data name="Diff.Position" xml:space="preserve"><value>Промяна {0} от {1}</value></data>
+  <data name="Diff.Accept" xml:space="preserve"><value>Приеми</value></data>
+  <data name="Diff.Reject" xml:space="preserve"><value>Откажи</value></data>
+  <data name="Diff.AcceptAll" xml:space="preserve"><value>Приеми всички</value></data>
+  <data name="Diff.RejectAll" xml:space="preserve"><value>Откажи всички</value></data>
+  <data name="Diff.Apply" xml:space="preserve"><value>Приложи в текста</value></data>
+  <data name="Panel.EstimatedLevel" xml:space="preserve"><value>Оценено ниво</value></data>
+  <data name="Panel.Target" xml:space="preserve"><value>Цел: {0}</value></data>
+  <data name="Panel.Scores" xml:space="preserve"><value>Оценки</value></data>
+  <data name="Panel.Feedback" xml:space="preserve"><value>Обратна връзка</value></data>
+  <data name="Panel.Errors" xml:space="preserve"><value>Грешки ({0})</value></data>
+  <data name="Panel.NoErrors" xml:space="preserve"><value>Няма открити грешки. Браво!</value></data>
+  <data name="Panel.Removed" xml:space="preserve"><value>(премахнато)</value></data>
+  <data name="Panel.NotInDiff" xml:space="preserve"><value>Тази промяна не може да бъде открита в текста.</value></data>
+  <data name="Panel.Vocabulary" xml:space="preserve"><value>Подобрения на речника</value></data>
+  <data name="Panel.Meta" xml:space="preserve"><value>{0} · {1} · {2} думи</value></data>
+  <data name="Severity.Minor" xml:space="preserve"><value>Дребна</value></data>
+  <data name="Severity.Moderate" xml:space="preserve"><value>Средна</value></data>
+  <data name="Severity.Major" xml:space="preserve"><value>Сериозна</value></data>
+  <data name="TaskType.Email" xml:space="preserve"><value>Имейл</value></data>
+  <data name="TaskType.Essay" xml:space="preserve"><value>Есе</value></data>
+  <data name="TaskType.Letter" xml:space="preserve"><value>Писмо</value></data>
+  <data name="TaskType.Report" xml:space="preserve"><value>Доклад</value></data>
+  <data name="TaskType.Review" xml:space="preserve"><value>Ревю</value></data>
+  <data name="TaskType.Article" xml:space="preserve"><value>Статия</value></data>
+  <data name="TaskType.Proposal" xml:space="preserve"><value>Предложение</value></data>
+  <data name="TaskType.Other" xml:space="preserve"><value>Друго</value></data>
+  <data name="Ai.Error.NotConfigured" xml:space="preserve"><value>Не е зададен API ключ за OpenRouter (вижте Настройки).</value></data>
+  <data name="Ai.Error.RateLimited" xml:space="preserve"><value>AI моделите са заети или дневният безплатен лимит е изчерпан.</value></data>
+  <data name="Ai.Error.InvalidResponse" xml:space="preserve"><value>AI върна отговор, който не може да бъде прочетен.</value></data>
+  <data name="Ai.Error.ProviderError" xml:space="preserve"><value>Доставчикът на AI върна грешка.</value></data>
+  <data name="History.PageTitle" xml:space="preserve"><value>История – AI Writing Coach</value></data>
+  <data name="History.Title" xml:space="preserve"><value>Заглавие</value></data>
+  <data name="History.Words" xml:space="preserve"><value>Думи</value></data>
+  <data name="History.Score" xml:space="preserve"><value>Резултат</value></data>
+  <data name="History.Checks" xml:space="preserve"><value>Проверки</value></data>
+  <data name="History.Updated" xml:space="preserve"><value>Променен</value></data>
+  <data name="History.Untitled" xml:space="preserve"><value>(без заглавие)</value></data>
+  <data name="History.Empty" xml:space="preserve"><value>Все още няма запазени текстове. Започнете от екрана „Писане“.</value></data>
+  <data name="History.DeleteTitle" xml:space="preserve"><value>Изтриване на текст</value></data>
+  <data name="History.DeleteConfirm" xml:space="preserve"><value>Да се изтрие ли „{0}“ заедно с всички проверки? Действието е необратимо.</value></data>
+  <data name="Progress.PageTitle" xml:space="preserve"><value>Напредък – AI Writing Coach</value></data>
+  <data name="Progress.ComingSoon" xml:space="preserve"><value>Тенденции на оценките, най-честите грешки и сгрешените думи ще се появят тук в следващата версия.</value></data>
+  <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Речник – AI Writing Coach</value></data>
+  <data name="Vocabulary.ComingSoon" xml:space="preserve"><value>Списъкът с думи, които да започнете да използвате (с „научена“), ще се появи тук в следващата версия.</value></data>
+  <data name="Settings.PageTitle" xml:space="preserve"><value>Настройки – AI Writing Coach</value></data>
+  <data name="Settings.Language" xml:space="preserve"><value>Език</value></data>
+  <data name="Settings.About" xml:space="preserve"><value>Конфигурация</value></data>
+  <data name="Settings.Mode" xml:space="preserve"><value>Режим</value></data>
+  <data name="Settings.Database" xml:space="preserve"><value>База данни</value></data>
+  <data name="Settings.DefaultModel" xml:space="preserve"><value>Модел по подразбиране</value></data>
+  <data name="Settings.Fallbacks" xml:space="preserve"><value>Резервни модели</value></data>
+  <data name="Settings.ApiKey" xml:space="preserve"><value>API ключ за OpenRouter</value></data>
+  <data name="Settings.ApiKeySet" xml:space="preserve"><value>Зададен</value></data>
+  <data name="Settings.ApiKeyMissing" xml:space="preserve"><value>Липсва</value></data>
+  <data name="Settings.ApiKeyHelp" xml:space="preserve"><value>Задайте го с user-secrets и рестартирайте приложението:</value></data>
+</root>

@@ -1,0 +1,60 @@
+@page "/settings"
+@using System.Globalization
+@using AIWritingCoach.Infrastructure.Ai
+@using AIWritingCoach.Infrastructure.Data
+@using Microsoft.Extensions.Options
+@inject NavigationManager Navigation
+@inject AppOptions App
+@inject DatabaseOptions Database
+@inject IOptions<OpenRouterOptions> OpenRouter
+
+<PageTitle>@L["Settings.PageTitle"]</PageTitle>
+
+<div class="page page-narrow">
+    <MudText Typo="Typo.h5" Class="mb-4">@L["Nav.Settings"]</MudText>
+
+    <MudPaper Class="pa-4 mb-4" Elevation="1">
+        <MudText Typo="Typo.h6" Class="mb-2">@L["Settings.Language"]</MudText>
+        <MudSelect T="string" Value="_culture" ValueChanged="ChangeCulture" Label="@L["Settings.Language"]" Variant="Variant.Outlined" Margin="Margin.Dense">
+            <MudSelectItem T="string" Value="@("en")">English</MudSelectItem>
+            <MudSelectItem T="string" Value="@("bg")">Български</MudSelectItem>
+        </MudSelect>
+    </MudPaper>
+
+    <MudPaper Class="pa-4" Elevation="1">
+        <MudText Typo="Typo.h6" Class="mb-2">@L["Settings.About"]</MudText>
+        <MudSimpleTable Dense="true" Elevation="0">
+            <tbody>
+                <tr><td>@L["Settings.Mode"]</td><td>@App.Mode</td></tr>
+                <tr><td>@L["Settings.Database"]</td><td>@Database.Provider</td></tr>
+                <tr><td>@L["Settings.DefaultModel"]</td><td><code>@OpenRouter.Value.DefaultModel</code></td></tr>
+                <tr><td>@L["Settings.Fallbacks"]</td><td>@foreach (var m in OpenRouter.Value.FallbackModels) { <div><code>@m</code></div> }</td></tr>
+                <tr>
+                    <td>@L["Settings.ApiKey"]</td>
+                    <td>
+                        @if (OpenRouter.Value.IsConfigured)
+                        {
+                            <MudChip T="string" Color="Color.Success" Size="Size.Small">@L["Settings.ApiKeySet"]</MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" Color="Color.Error" Size="Size.Small">@L["Settings.ApiKeyMissing"]</MudChip>
+                            <MudText Typo="Typo.caption">@L["Settings.ApiKeyHelp"]</MudText>
+                            <pre class="code">dotnet user-secrets set "OpenRouter:ApiKey" "sk-or-..." --project src/AIWritingCoach.Web</pre>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+    </MudPaper>
+</div>
+
+@code {
+    private string _culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+    private void ChangeCulture(string culture)
+    {
+        var redirect = Uri.EscapeDataString("/" + Navigation.ToBaseRelativePath(Navigation.Uri));
+        Navigation.NavigateTo($"/culture/set?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}", forceLoad: true);
+    }
+}

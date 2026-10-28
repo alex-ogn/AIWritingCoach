@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Common.Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Common.Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Common.Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Common.Search" xml:space="preserve"><value>Search</value></data>
+  <data name="Nav.Write" xml:space="preserve"><value>Write</value></data>
+  <data name="Nav.History" xml:space="preserve"><value>History</value></data>
+  <data name="Nav.Progress" xml:space="preserve"><value>Progress</value></data>
+  <data name="Nav.Vocabulary" xml:space="preserve"><value>Vocabulary</value></data>
+  <data name="Nav.Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Nav.Toggle" xml:space="preserve"><value>Toggle navigation</value></data>
+  <data name="Nav.Theme" xml:space="preserve"><value>Toggle dark mode</value></data>
+  <data name="Error.Unhandled" xml:space="preserve"><value>An unhandled error has occurred.</value></data>
+  <data name="Error.Reload" xml:space="preserve"><value>Reload</value></data>
+  <data name="Write.PageTitle" xml:space="preserve"><value>Write – AI Writing Coach</value></data>
+  <data name="Write.Profile" xml:space="preserve"><value>Profile</value></data>
+  <data name="Write.Level" xml:space="preserve"><value>Level</value></data>
+  <data name="Write.TaskType" xml:space="preserve"><value>Task type</value></data>
+  <data name="Write.Criteria" xml:space="preserve"><value>Criteria ({0})</value></data>
+  <data name="Write.View.Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Write.View.SideBySide" xml:space="preserve"><value>Side by side</value></data>
+  <data name="Write.View.Inline" xml:space="preserve"><value>Inline</value></data>
+  <data name="Write.Words" xml:space="preserve"><value>{0} words{1}</value></data>
+  <data name="Write.Check" xml:space="preserve"><value>Check</value></data>
+  <data name="Write.Checking" xml:space="preserve"><value>Checking…</value></data>
+  <data name="Write.TogglePanel" xml:space="preserve"><value>Toggle results panel</value></data>
+  <data name="Write.New" xml:space="preserve"><value>New text</value></data>
+  <data name="Write.TitlePlaceholder" xml:space="preserve"><value>Untitled text</value></data>
+  <data name="Write.TaskPrompt" xml:space="preserve"><value>Task instructions (optional)</value></data>
+  <data name="Write.ContentPlaceholder" xml:space="preserve"><value>Start writing your text here…</value></data>
+  <data name="Write.Stale" xml:space="preserve"><value>The text has changed since the last check. Run Check again to see new corrections.</value></data>
+  <data name="Write.CheckDone" xml:space="preserve"><value>Check complete: {0} changes suggested.</value></data>
+  <data name="Write.Applied" xml:space="preserve"><value>Accepted changes were applied to your text.</value></data>
+  <data name="Diff.Original" xml:space="preserve"><value>Original</value></data>
+  <data name="Diff.Corrected" xml:space="preserve"><value>Corrected</value></data>
+  <data name="Diff.Previous" xml:space="preserve"><value>Previous change</value></data>
+  <data name="Diff.Next" xml:space="preserve"><value>Next change</value></data>
+  <data name="Diff.Summary" xml:space="preserve"><value>{0} changes, {1} accepted</value></data>
+  <data name="Diff.Position" xml:space="preserve"><value>Change {0} of {1}</value></data>
+  <data name="Diff.Accept" xml:space="preserve"><value>Accept</value></data>
+  <data name="Diff.Reject" xml:space="preserve"><value>Reject</value></data>
+  <data name="Diff.AcceptAll" xml:space="preserve"><value>Accept all</value></data>
+  <data name="Diff.RejectAll" xml:space="preserve"><value>Reject all</value></data>
+  <data name="Diff.Apply" xml:space="preserve"><value>Apply to text</value></data>
+  <data name="Panel.EstimatedLevel" xml:space="preserve"><value>Estimated level</value></data>
+  <data name="Panel.Target" xml:space="preserve"><value>Target: {0}</value></data>
+  <data name="Panel.Scores" xml:space="preserve"><value>Scores</value></data>
+  <data name="Panel.Feedback" xml:space="preserve"><value>Feedback</value></data>
+  <data name="Panel.Errors" xml:space="preserve"><value>Mistakes ({0})</value></data>
+  <data name="Panel.NoErrors" xml:space="preserve"><value>No mistakes found. Well done!</value></data>
+  <data name="Panel.Removed" xml:space="preserve"><value>(removed)</value></data>
+  <data name="Panel.NotInDiff" xml:space="preserve"><value>This change could not be located in the text.</value></data>
+  <data name="Panel.Vocabulary" xml:space="preserve"><value>Vocabulary upgrades</value></data>
+  <data name="Panel.Meta" xml:space="preserve"><value>{0} · {1} · {2} words</value></data>
+  <data name="Severity.Minor" xml:space="preserve"><value>Minor</value></data>
+  <data name="Severity.Moderate" xml:space="preserve"><value>Moderate</value></data>
+  <data name="Severity.Major" xml:space="preserve"><value>Major</value></data>
+  <data name="TaskType.Email" xml:space="preserve"><value>Email</value></data>
+  <data name="TaskType.Essay" xml:space="preserve"><value>Essay</value></data>
+  <data name="TaskType.Letter" xml:space="preserve"><value>Letter</value></data>
+  <data name="TaskType.Report" xml:space="preserve"><value>Report</value></data>
+  <data name="TaskType.Review" xml:space="preserve"><value>Review</value></data>
+  <data name="TaskType.Article" xml:space="preserve"><value>Article</value></data>
+  <data name="TaskType.Proposal" xml:space="preserve"><value>Proposal</value></data>
+  <data name="TaskType.Other" xml:space="preserve"><value>Other</value></data>
+  <data name="Ai.Error.NotConfigured" xml:space="preserve"><value>The OpenRouter API key is not configured (see Settings).</value></data>
+  <data name="Ai.Error.RateLimited" xml:space="preserve"><value>The AI models are busy or the daily free limit was reached.</value></data>
+  <data name="Ai.Error.InvalidResponse" xml:space="preserve"><value>The AI returned an answer that could not be read.</value></data>
+  <data name="Ai.Error.ProviderError" xml:space="preserve"><value>The AI provider returned an error.</value></data>
+  <data name="History.PageTitle" xml:space="preserve"><value>History – AI Writing Coach</value></data>
+  <data name="History.Title" xml:space="preserve"><value>Title</value></data>
+  <data name="History.Words" xml:space="preserve"><value>Words</value></data>
+  <data name="History.Score" xml:space="preserve"><value>Score</value></data>
+  <data name="History.Checks" xml:space="preserve"><value>Checks</value></data>
+  <data name="History.Updated" xml:space="preserve"><value>Updated</value></data>
+  <data name="History.Untitled" xml:space="preserve"><value>(untitled)</value></data>
+  <data name="History.Empty" xml:space="preserve"><value>No saved texts yet. Start writing on the Write screen.</value></data>
+  <data name="History.DeleteTitle" xml:space="preserve"><value>Delete text</value></data>
+  <data name="History.DeleteConfirm" xml:space="preserve"><value>Delete &quot;{0}&quot; and all its checks? This cannot be undone.</value></data>
+  <data name="Progress.PageTitle" xml:space="preserve"><value>Progress – AI Writing Coach</value></data>
+  <data name="Progress.ComingSoon" xml:space="preserve"><value>Score trends, most frequent mistakes and misspelled words will appear here in the next version.</value></data>
+  <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Vocabulary – AI Writing Coach</value></data>
+  <data name="Vocabulary.ComingSoon" xml:space="preserve"><value>Your list of words to start using (with &quot;mark as learned&quot;) will appear here in the next version.</value></data>
+  <data name="Settings.PageTitle" xml:space="preserve"><value>Settings – AI Writing Coach</value></data>
+  <data name="Settings.Language" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings.About" xml:space="preserve"><value>Configuration</value></data>
+  <data name="Settings.Mode" xml:space="preserve"><value>Mode</value></data>
+  <data name="Settings.Database" xml:space="preserve"><value>Database</value></data>
+  <data name="Settings.DefaultModel" xml:space="preserve"><value>Default model</value></data>
+  <data name="Settings.Fallbacks" xml:space="preserve"><value>Fallback models</value></data>
+  <data name="Settings.ApiKey" xml:space="preserve"><value>OpenRouter API key</value></data>
+  <data name="Settings.ApiKeySet" xml:space="preserve"><value>Configured</value></data>
+  <data name="Settings.ApiKeyMissing" xml:space="preserve"><value>Missing</value></data>
+  <data name="Settings.ApiKeyHelp" xml:space="preserve"><value>Set it with user-secrets and restart the app:</value></data>
+</root>

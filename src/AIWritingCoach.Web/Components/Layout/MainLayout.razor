@@ -1,0 +1,57 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="_themeProvider" Theme="_theme" @bind-IsDarkMode="_isDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Dense="true" Class="app-bar">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="() => _drawerOpen = !_drawerOpen" aria-label="@L["Nav.Toggle"]" />
+        <MudText Typo="Typo.h6" Class="ml-2">AI Writing Coach</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" Color="Color.Inherit"
+                       OnClick="() => _isDarkMode = !_isDarkMode" aria-label="@L["Nav.Theme"]" />
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="_drawerOpen" Variant="DrawerVariant.Mini" ClipMode="DrawerClipMode.Always" Elevation="1">
+        <MudNavMenu>
+            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EditNote">@L["Nav.Write"]</MudNavLink>
+            <MudNavLink Href="/history" Icon="@Icons.Material.Filled.History">@L["Nav.History"]</MudNavLink>
+            <MudNavLink Href="/progress" Icon="@Icons.Material.Filled.Insights">@L["Nav.Progress"]</MudNavLink>
+            <MudNavLink Href="/vocabulary" Icon="@Icons.Material.Filled.MenuBook">@L["Nav.Vocabulary"]</MudNavLink>
+            <MudNavLink Href="/settings" Icon="@Icons.Material.Filled.Settings">@L["Nav.Settings"]</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent Class="main-content">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    @L["Error.Unhandled"]
+    <a href="." class="reload">@L["Error.Reload"]</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private MudThemeProvider? _themeProvider;
+    private bool _drawerOpen;
+    private bool _isDarkMode;
+
+    private readonly MudTheme _theme = new()
+    {
+        PaletteLight = new PaletteLight { Primary = "#3f51b5", AppbarBackground = "#3f51b5" },
+        PaletteDark = new PaletteDark { Primary = "#8c9eff" },
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && _themeProvider is not null)
+        {
+            _isDarkMode = await _themeProvider.GetSystemDarkModeAsync();
+            StateHasChanged();
+        }
+    }
+}

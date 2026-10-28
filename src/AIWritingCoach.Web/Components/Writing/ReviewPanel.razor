@@ -1,0 +1,130 @@
+@* Right-hand panel: level, per-criterion scores, feedback, errors and vocabulary of one review. *@
+
+<div class="review-panel">
+    <div class="panel-header">
+        <div>
+            <MudText Typo="Typo.caption">@L["Panel.EstimatedLevel"]</MudText>
+            <MudText Typo="Typo.h4">@(Review.EstimatedLevel?.ToString() ?? "–")</MudText>
+            <MudText Typo="Typo.caption">@L["Panel.Target", Review.TargetLevel]</MudText>
+        </div>
+        @if (Review.ScorePercent is { } percent)
+        {
+            <div class="panel-score">
+                <MudProgressCircular Value="percent" Size="Size.Large" Color="ScoreColor(percent)" />
+                <MudText Typo="Typo.subtitle2">@Review.TotalScore / @Review.MaxTotalScore</MudText>
+            </div>
+        }
+    </div>
+
+    @if (Review.Scores.Count > 0)
+    {
+        <MudText Typo="Typo.subtitle2" Class="panel-section">@L["Panel.Scores"]</MudText>
+        @foreach (var score in Review.Scores)
+        {
+            var pct = score.MaxScore > 0 ? 100.0 * score.Score / score.MaxScore : 0;
+            <div class="score-row">
+                <div class="score-head">
+                    <span>@score.CriterionName</span>
+                    <strong>@score.Score/@score.MaxScore</strong>
+                </div>
+                <MudProgressLinear Value="pct" Color="ScoreColor(pct)" Rounded="true" Size="Size.Small" />
+                @if (!string.IsNullOrWhiteSpace(score.Comment))
+                {
+                    <MudText Typo="Typo.caption" Class="score-comment">@score.Comment</MudText>
+                }
+            </div>
+        }
+    }
+
+    <MudText Typo="Typo.subtitle2" Class="panel-section">@L["Panel.Feedback"]</MudText>
+    <MudText Typo="Typo.body2">@Review.OverallFeedback</MudText>
+
+    <MudText Typo="Typo.subtitle2" Class="panel-section">@L["Panel.Errors", Review.Errors.Count]</MudText>
+    @if (Review.Errors.Count == 0)
+    {
+        <MudText Typo="Typo.body2">@L["Panel.NoErrors"]</MudText>
+    }
+    @foreach (var group in Review.Errors.GroupBy(e => e.Category).OrderByDescending(g => g.Count()))
+    {
+        <div class="error-group">
+            <MudText Typo="Typo.overline">@group.Key (@group.Count())</MudText>
+            @foreach (var error in group)
+            {
+                var linked = Session.Diff.HunksForError(error.Index).Any();
+                <div id="error-@error.Index"
+                     class="error-item @(SelectedError == error.Index ? "selected" : null) @(linked ? null : "unlinked")"
+                     @onclick="() => OnSelectError.InvokeAsync(error)">
+                    <div class="error-change">
+                        <span class="severity severity-@error.Severity.ToString().ToLowerInvariant()" title="@L[$"Severity.{error.Severity}"]"></span>
+                        @if (!string.IsNullOrEmpty(error.Original))
+                        {
+                            <span class="err-orig">@error.Original</span>
+                        }
+                        <span class="err-arrow">→</span>
+                        <span class="err-corr">@(string.IsNullOrEmpty(error.Correction) ? L["Panel.Removed"] : error.Correction)</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(error.Subcategory))
+                    {
+                        <MudText Typo="Typo.caption" Class="err-sub">@error.Subcategory</MudText>
+                    }
+                    <MudText Typo="Typo.body2">@error.Explanation</MudText>
+                    @if (!linked)
+                    {
+                        <MudText Typo="Typo.caption" Color="Color.Warning">@L["Panel.NotInDiff"]</MudText>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    @if (Review.VocabularySuggestions.Count > 0)
+    {
+        <MudText Typo="Typo.subtitle2" Class="panel-section">@L["Panel.Vocabulary"]</MudText>
+        @foreach (var vocab in Review.VocabularySuggestions)
+        {
+            <div class="vocab-item">
+                <div>
+                    @if (!string.IsNullOrWhiteSpace(vocab.Original))
+                    {
+                        <span class="err-orig plain">@vocab.Original</span>
+                        <span class="err-arrow">→</span>
+                    }
+                    <strong>@vocab.Suggestion</strong>
+                    @if (vocab.CefrLevel is { } level)
+                    {
+                        <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined" Class="ml-1">@level</MudChip>
+                    }
+                </div>
+                @if (!string.IsNullOrWhiteSpace(vocab.Example))
+                {
+                    <MudText Typo="Typo.caption"><em>@vocab.Example</em></MudText>
+                }
+            </div>
+        }
+    }
+
+    <MudText Typo="Typo.caption" Class="panel-footer">
+        @L["Panel.Meta", Review.Model, Review.CreatedAt.ToLocalTime().ToString("g"), Review.WordCount]
+    </MudText>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ReviewSession Session { get; set; } = default!;
+
+    [Parameter]
+    public int? SelectedError { get; set; }
+
+    [Parameter]
+    public EventCallback<ReviewError> OnSelectError { get; set; }
+
+    private Review Review => Session.Review;
+
+    private static Color ScoreColor(double percent) => percent switch
+    {
+        >= 80 => Color.Success,
+        >= 60 => Color.Info,
+        >= 40 => Color.Warning,
+        _ => Color.Error,
+    };
+}

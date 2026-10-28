@@ -1,0 +1,90 @@
+@page "/history"
+@inject IDocumentRepository Documents
+@inject IDialogService Dialogs
+@inject NavigationManager Navigation
+
+<PageTitle>@L["History.PageTitle"]</PageTitle>
+
+<div class="page">
+    <div class="d-flex align-center mb-3">
+        <MudText Typo="Typo.h5">@L["Nav.History"]</MudText>
+        <MudSpacer />
+        <MudTextField T="string" @bind-Value="_search" Placeholder="@L["Common.Search"]" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Margin="Margin.Dense" Immediate="true" Class="history-search" />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.NoteAdd" Href="/" Class="ml-3">@L["Write.New"]</MudButton>
+    </div>
+
+    @if (_items is null)
+    {
+        <MudProgressLinear Indeterminate="true" />
+    }
+    else if (_items.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info">@L["History.Empty"]</MudAlert>
+    }
+    else
+    {
+        <MudTable T="DocumentSummary" Items="Filtered" Hover="true" Dense="true" Elevation="1" OnRowClick="OnRowClick" RowClass="cursor-pointer">
+            <HeaderContent>
+                <MudTh>@L["History.Title"]</MudTh>
+                <MudTh>@L["Write.TaskType"]</MudTh>
+                <MudTh>@L["Write.Level"]</MudTh>
+                <MudTh Style="text-align:right">@L["History.Words"]</MudTh>
+                <MudTh Style="text-align:right">@L["History.Score"]</MudTh>
+                <MudTh>@L["Panel.EstimatedLevel"]</MudTh>
+                <MudTh Style="text-align:right">@L["History.Checks"]</MudTh>
+                <MudTh>@L["History.Updated"]</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@(string.IsNullOrWhiteSpace(context.Title) ? L["History.Untitled"] : context.Title)</MudTd>
+                <MudTd>@L[$"TaskType.{context.TaskType}"]</MudTd>
+                <MudTd>@context.TargetLevel</MudTd>
+                <MudTd Style="text-align:right">@context.WordCount</MudTd>
+                <MudTd Style="text-align:right">@(context.LastScorePercent is { } p ? $"{p:0}%" : "–")</MudTd>
+                <MudTd>@(context.LastEstimatedLevel?.ToString() ?? "–")</MudTd>
+                <MudTd Style="text-align:right">@context.ReviewCount</MudTd>
+                <MudTd>@context.UpdatedAt.ToLocalTime().ToString("g")</MudTd>
+                <MudTd>
+                    <span @onclick:stopPropagation="true">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Delete" Size="Size.Small" aria-label="@L["Common.Delete"]" OnClick="() => DeleteAsync(context)" />
+                    </span>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</div>
+
+@code {
+    private List<DocumentSummary>? _items;
+    private string? _search;
+
+    private IEnumerable<DocumentSummary> Filtered => string.IsNullOrWhiteSpace(_search)
+        ? _items!
+        : _items!.Where(d => d.Title.Contains(_search, StringComparison.CurrentCultureIgnoreCase));
+
+    protected override async Task OnInitializedAsync() => _items = [.. await Documents.ListAsync()];
+
+    private void OnRowClick(TableRowClickEventArgs<DocumentSummary> args)
+    {
+        if (args.Item is { } item)
+        {
+            Navigation.NavigateTo($"/write/{item.Id}");
+        }
+    }
+
+    private async Task DeleteAsync(DocumentSummary item)
+    {
+        var confirmed = await Dialogs.ShowMessageBoxAsync(
+            L["History.DeleteTitle"],
+            L["History.DeleteConfirm", item.Title],
+            yesText: L["Common.Delete"],
+            cancelText: L["Common.Cancel"]);
+
+        if (confirmed == true)
+        {
+            await Documents.DeleteAsync(item.Id);
+            _items!.Remove(item);
+        }
+    }
+}
