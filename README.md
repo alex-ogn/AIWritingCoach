@@ -60,6 +60,9 @@ dotnet run --project src/AIWritingCoach.Web
 
 Then open <http://localhost:5155>. The database is created and migrated on first start.
 
+On Windows you can instead double-click `start.cmd`: it runs the app with `dotnet watch` (hot reload) and opens the
+browser automatically.
+
 ### Configuration
 
 All settings live in `src/AIWritingCoach.Web/appsettings.json`; secrets never go there.
