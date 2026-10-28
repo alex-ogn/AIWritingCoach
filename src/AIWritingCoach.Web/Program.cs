@@ -33,7 +33,8 @@ switch (appOptions.Mode)
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddLocalization(o => o.ResourcesPath = "Resources");
-builder.Services.AddMudServices();
+// Bottom-right so notifications never cover the Write toolbar.
+builder.Services.AddMudServices(o => o.SnackbarConfiguration.PositionClass = MudBlazor.Defaults.Classes.Position.BottomRight);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 

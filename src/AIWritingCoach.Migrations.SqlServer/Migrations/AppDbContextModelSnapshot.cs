@@ -281,6 +281,10 @@ namespace AIWritingCoach.Migrations.SqlServer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.PrimitiveCollection<string>("OtherTaskTypes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("RubricId")
                         .HasColumnType("uniqueidentifier");
 

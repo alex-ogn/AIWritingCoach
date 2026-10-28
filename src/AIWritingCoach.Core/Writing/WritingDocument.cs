@@ -11,6 +11,7 @@ public enum WritingTaskType
     Review,
     Article,
     Proposal,
+    Story,
     Other,
 }
 

@@ -1,4 +1,4 @@
-{ "key": "b2-review", "version": 1, "name": "B2 Review / Article", "description": "B2 First Part 2 review or article (140-190 words).",
-  "level": "B2", "taskType": "Review", "rubricKey": "cambridge-b2-first",
+{ "key": "b2-review", "version": 2, "name": "B2 Review / Article", "description": "B2 First Part 2 review, article or report (140-190 words).",
+  "level": "B2", "taskType": "Review", "otherTaskTypes": ["Article", "Report"], "rubricKey": "cambridge-b2-first",
   "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
   "model": null, "minWords": 140, "maxWords": 190, "sortOrder": 30 }

@@ -1,0 +1,17 @@
+{
+  "key": "cambridge-c2-proficiency",
+  "version": 1,
+  "name": "Cambridge-style C2 Proficiency (Writing)",
+  "description": "Four criteria scored 0-5 with C2 expectations, modelled on the public structure of the C2 Proficiency writing assessment.",
+  "kind": "Exam",
+  "criteria": [
+    { "key": "content", "name": "Content", "minScore": 0, "maxScore": 5,
+      "description": "All content is relevant and the target reader is fully informed; ideas are developed in depth and, for the essay, both source texts are summarised and evaluated accurately." },
+    { "key": "communicative-achievement", "name": "Communicative Achievement", "minScore": 0, "maxScore": 5,
+      "description": "Demonstrates complete command of the conventions of the task type, with flexibility and ease; communicates complex ideas in an effective and convincing way, holding the reader's attention throughout." },
+    { "key": "organisation", "name": "Organisation", "minScore": 0, "maxScore": 5,
+      "description": "Text is a well-organised, coherent whole, using a variety of cohesive devices and organisational patterns with complete flexibility." },
+    { "key": "language", "name": "Language", "minScore": 0, "maxScore": 5,
+      "description": "Uses a wide range of vocabulary, including less common lexis, with fluency, precision, sophistication and style; uses a wide range of simple and complex grammar with full control and sophistication; any errors are rare slips." }
+  ]
+}

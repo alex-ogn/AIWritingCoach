@@ -28,14 +28,14 @@
         }
     </MudSelect>
 
-    <MudSelect T="CefrLevel" @bind-Value="_document.TargetLevel" Label="@L["Write.Level"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-small">
+    <MudSelect T="CefrLevel" Value="_document.TargetLevel" ValueChanged="OnLevelChanged" Label="@L["Write.Level"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-small">
         @foreach (var level in Enum.GetValues<CefrLevel>())
         {
             <MudSelectItem T="CefrLevel" Value="level">@level</MudSelectItem>
         }
     </MudSelect>
 
-    <MudSelect T="WritingTaskType" @bind-Value="_document.TaskType" Label="@L["Write.TaskType"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-task"
+    <MudSelect T="WritingTaskType" Value="_document.TaskType" ValueChanged="OnTaskTypeChanged" Label="@L["Write.TaskType"]" Dense="true" Variant="Variant.Outlined" Margin="Margin.Dense" Class="tb-task"
                ToStringFunc="@(t => L[$"TaskType.{t}"])">
         @foreach (var type in Enum.GetValues<WritingTaskType>())
         {
@@ -171,6 +171,8 @@
         Inline,
     }
 
+    private const string DefaultProfileKey = "b2-essay";
+
     [Parameter]
     public Guid? Id { get; set; }
 
@@ -224,7 +226,7 @@
         }
         else
         {
-            NewDocument();
+            await NewDocumentAsync();
         }
     }
 
@@ -246,9 +248,13 @@
         _viewMode = _session is not null && !IsStale ? ViewMode.Inline : ViewMode.Edit;
     }
 
-    private void NewDocument()
+    /// <summary>New texts start with the profile of the most recently edited text (B2 Essay the first time).</summary>
+    private async Task NewDocumentAsync()
     {
-        _profile = _profiles.FirstOrDefault();
+        var lastProfileId = await Documents.GetLastUsedProfileIdAsync();
+        _profile = _profiles.FirstOrDefault(p => p.Id == lastProfileId)
+            ?? _profiles.FirstOrDefault(p => p.Key == DefaultProfileKey)
+            ?? _profiles.FirstOrDefault();
         _document = new WritingDocument
         {
             TaskType = _profile?.TaskType ?? WritingTaskType.Essay,
@@ -265,11 +271,51 @@
 
     private void OnProfileChanged(Profile profile)
     {
+        ApplyProfile(profile);
+        _document!.TaskType = profile.TaskType;
+        _document.TargetLevel = profile.TargetLevel;
+    }
+
+    private void OnLevelChanged(CefrLevel level)
+    {
+        _document!.TargetLevel = level;
+        SyncExamProfile();
+    }
+
+    private void OnTaskTypeChanged(WritingTaskType taskType)
+    {
+        _document!.TaskType = taskType;
+        SyncExamProfile();
+    }
+
+    /// <summary>
+    /// Exam rubric and word limits depend on level and task type, so changing either switches to the
+    /// matching exam profile (B2 → C1 essay gets the C1 rubric and 220–260 words). Non-exam profiles
+    /// (business email, quick proofread) are kept as they are.
+    /// </summary>
+    private void SyncExamProfile()
+    {
+        if (_profile is not null && !IsExamProfile(_profile))
+        {
+            return;
+        }
+
+        var match = ProfileMatcher.FindExamProfile(_profiles, _rubrics, _document!.TargetLevel, _document.TaskType);
+        if (match is not null && match != _profile)
+        {
+            ApplyProfile(match);
+            Snackbar.Add(L["Write.ProfileSwitched", match.Name], Severity.Info);
+        }
+    }
+
+    private bool IsExamProfile(Profile profile) =>
+        _rubrics.Any(r => r.Id == profile.RubricId && r.Kind == RubricKind.Exam);
+
+    private void ApplyProfile(Profile profile)
+    {
         _profile = profile;
         _selectedCriteria = [.. profile.CriterionKeys];
         _document!.ProfileId = profile.Id;
-        _document.TaskType = profile.TaskType;
-        _document.TargetLevel = profile.TargetLevel;
     }
 
     /// <summary>The profile's own rubric first, then every custom-criteria rubric.</summary>

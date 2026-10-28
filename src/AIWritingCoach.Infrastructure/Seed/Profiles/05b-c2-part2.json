@@ -1,0 +1,4 @@
+{ "key": "c2-part2", "version": 1, "name": "C2 Article / Report", "description": "C2 Proficiency Part 2 article, letter, report or review (280-320 words).",
+  "level": "C2", "taskType": "Article", "otherTaskTypes": ["Letter", "Email", "Report", "Review"], "rubricKey": "cambridge-c2-proficiency",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 280, "maxWords": 320, "sortOrder": 56 }

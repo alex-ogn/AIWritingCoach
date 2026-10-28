@@ -117,6 +117,7 @@ public sealed class DataSeeder(ILogger<DataSeeder> logger)
         string? Description,
         CefrLevel Level,
         WritingTaskType TaskType,
+        List<WritingTaskType>? OtherTaskTypes,
         string RubricKey,
         List<string> CriterionKeys,
         string? Model,
@@ -132,6 +133,7 @@ public sealed class DataSeeder(ILogger<DataSeeder> logger)
             profile.Description = Description;
             profile.TargetLevel = Level;
             profile.TaskType = TaskType;
+            profile.OtherTaskTypes = OtherTaskTypes ?? [];
             profile.RubricId = rubricId;
             profile.CriterionKeys = CriterionKeys;
             profile.Model = Model;

@@ -1,0 +1,17 @@
+{
+  "key": "cambridge-a2-key",
+  "version": 1,
+  "name": "Cambridge-style A2 Key (Writing)",
+  "description": "Four criteria scored 0-5 with A2 expectations, modelled on the public structure of the A2 Key writing assessment.",
+  "kind": "Exam",
+  "criteria": [
+    { "key": "content", "name": "Content", "minScore": 0, "maxScore": 5,
+      "description": "All the points asked for in the task are included and the reader gets the basic information they need." },
+    { "key": "communicative-achievement", "name": "Communicative Achievement", "minScore": 0, "maxScore": 5,
+      "description": "The text is suitable for its purpose (e.g. a short email or a simple story) and communicates simple ideas clearly." },
+    { "key": "organisation", "name": "Organisation", "minScore": 0, "maxScore": 5,
+      "description": "The text is connected using basic linking words (and, but, because, then) and simple referencing." },
+    { "key": "language", "name": "Language", "minScore": 0, "maxScore": 5,
+      "description": "Uses basic everyday vocabulary and simple grammatical forms with reasonable control; errors may be noticeable but the meaning is still clear." }
+  ]
+}

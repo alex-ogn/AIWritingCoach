@@ -12,6 +12,9 @@ public interface IDocumentRepository
 
     Task<WritingDocument?> GetAsync(Guid id, CancellationToken cancellationToken = default);
 
+    /// <summary>Profile of the most recently edited document, if any.</summary>
+    Task<Guid?> GetLastUsedProfileIdAsync(CancellationToken cancellationToken = default);
+
     /// <summary>Inserts or updates the document.</summary>
     Task SaveAsync(WritingDocument document, CancellationToken cancellationToken = default);
 

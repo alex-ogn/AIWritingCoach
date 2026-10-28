@@ -1,0 +1,4 @@
+{ "key": "b1-article-story", "version": 1, "name": "B1 Article / Story", "description": "B1 Preliminary Part 2 article or story (about 100 words).",
+  "level": "B1", "taskType": "Article", "otherTaskTypes": ["Story"], "rubricKey": "cambridge-b1-preliminary",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 80, "maxWords": 120, "sortOrder": 6 }

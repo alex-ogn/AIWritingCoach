@@ -52,6 +52,16 @@ internal sealed class DocumentRepository(IAppDbContextFactory factory) : IDocume
         return await db.Documents.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
     }
 
+    public async Task<Guid?> GetLastUsedProfileIdAsync(CancellationToken cancellationToken = default)
+    {
+        await using var db = factory.Create();
+        return await db.Documents
+            .Where(d => d.ProfileId != null)
+            .OrderByDescending(d => d.UpdatedAt)
+            .Select(d => d.ProfileId)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task SaveAsync(WritingDocument document, CancellationToken cancellationToken = default)
     {
         await using var db = factory.Create();

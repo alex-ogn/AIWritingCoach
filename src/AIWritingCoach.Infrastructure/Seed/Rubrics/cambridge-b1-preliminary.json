@@ -1,0 +1,17 @@
+{
+  "key": "cambridge-b1-preliminary",
+  "version": 1,
+  "name": "Cambridge-style B1 Preliminary (Writing)",
+  "description": "Four criteria scored 0-5 with B1 expectations, modelled on the public structure of the B1 Preliminary writing assessment.",
+  "kind": "Exam",
+  "criteria": [
+    { "key": "content", "name": "Content", "minScore": 0, "maxScore": 5,
+      "description": "All content is relevant to the task and the reader is fully informed; every point asked for is covered." },
+    { "key": "communicative-achievement", "name": "Communicative Achievement", "minScore": 0, "maxScore": 5,
+      "description": "Uses the conventions of the task type (email, article, story) to hold the reader's attention and communicate straightforward ideas." },
+    { "key": "organisation", "name": "Organisation", "minScore": 0, "maxScore": 5,
+      "description": "Text is generally well organised and coherent, using a variety of linking words and some cohesive devices." },
+    { "key": "language", "name": "Language", "minScore": 0, "maxScore": 5,
+      "description": "Uses a range of everyday vocabulary appropriately, with some less common words, and a range of simple and some complex grammatical forms with a good degree of control; errors do not impede communication." }
+  ]
+}

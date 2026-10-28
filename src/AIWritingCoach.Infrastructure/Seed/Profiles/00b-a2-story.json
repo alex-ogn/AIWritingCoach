@@ -1,0 +1,4 @@
+{ "key": "a2-story", "version": 1, "name": "A2 Story", "description": "A2 Key Part 7 story from pictures (35 words or more).",
+  "level": "A2", "taskType": "Story", "otherTaskTypes": [], "rubricKey": "cambridge-a2-key",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 35, "maxWords": null, "sortOrder": 2 }

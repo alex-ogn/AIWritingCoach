@@ -1,0 +1,4 @@
+{ "key": "c2-essay", "version": 1, "name": "C2 Essay", "description": "C2 Proficiency Part 1 essay summarising and evaluating two texts (240-280 words).",
+  "level": "C2", "taskType": "Essay", "otherTaskTypes": [], "rubricKey": "cambridge-c2-proficiency",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 240, "maxWords": 280, "sortOrder": 55 }

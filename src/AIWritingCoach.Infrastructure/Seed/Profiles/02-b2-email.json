@@ -1,4 +1,4 @@
-{ "key": "b2-email", "version": 1, "name": "B2 Email / Letter", "description": "B2 First Part 2 email or letter (140-190 words).",
-  "level": "B2", "taskType": "Email", "rubricKey": "cambridge-b2-first",
+{ "key": "b2-email", "version": 2, "name": "B2 Email / Letter", "description": "B2 First Part 2 email or letter (140-190 words).",
+  "level": "B2", "taskType": "Email", "otherTaskTypes": ["Letter"], "rubricKey": "cambridge-b2-first",
   "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
   "model": null, "minWords": 140, "maxWords": 190, "sortOrder": 20 }

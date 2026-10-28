@@ -1,3 +1,4 @@
+using AIWritingCoach.Core.Rubrics;
 using AIWritingCoach.Core.Users;
 using AIWritingCoach.Core.Writing;
 using AIWritingCoach.Infrastructure.Data;
@@ -102,15 +103,56 @@ public sealed class AppDbContextTests : IDisposable
         await using (var db = Context(Bob))
         {
             var rubrics = await db.Rubrics.ToListAsync();
-            Assert.Equal(3, rubrics.Count);
+            Assert.Equal(6, rubrics.Count);
             Assert.All(rubrics, r => Assert.NotEmpty(r.Criteria));
-            Assert.Equal(7, await db.Profiles.CountAsync());
+            Assert.Equal(13, await db.Profiles.CountAsync());
             Assert.Equal(1, await db.PromptTemplates.CountAsync());
 
             var b2Essay = await db.Profiles.SingleAsync(p => p.Key == "b2-essay");
             Assert.Equal(4, b2Essay.CriterionKeys.Count);
             Assert.Equal(CefrLevel.B2, b2Essay.TargetLevel);
+
+            var c1Report = await db.Profiles.SingleAsync(p => p.Key == "c1-report");
+            Assert.Contains(WritingTaskType.Proposal, c1Report.OtherTaskTypes);
         }
+    }
+
+    [Fact]
+    public async Task Every_profile_criterion_exists_in_its_rubric_or_the_custom_criteria()
+    {
+        await using var db = Context(Alice);
+        await new DataSeeder(NullLogger<DataSeeder>.Instance).SeedAsync(db);
+        var rubrics = await db.Rubrics.ToListAsync();
+        var customKeys = rubrics.Where(r => r.Kind == RubricKind.Custom).SelectMany(r => r.Criteria).Select(c => c.Key);
+
+        foreach (var profile in await db.Profiles.ToListAsync())
+        {
+            var available = rubrics.Single(r => r.Id == profile.RubricId).Criteria.Select(c => c.Key).Concat(customKeys).ToHashSet();
+            Assert.All(profile.CriterionKeys, key => Assert.Contains(key, available));
+        }
+    }
+
+    [Theory]
+    [InlineData(CefrLevel.A2, WritingTaskType.Story, "a2-story")]
+    [InlineData(CefrLevel.A2, WritingTaskType.Letter, "a2-email")]
+    [InlineData(CefrLevel.B1, WritingTaskType.Story, "b1-article-story")]
+    [InlineData(CefrLevel.B2, WritingTaskType.Essay, "b2-essay")]
+    [InlineData(CefrLevel.B2, WritingTaskType.Email, "b2-email")]
+    [InlineData(CefrLevel.B2, WritingTaskType.Report, "b2-review")]
+    [InlineData(CefrLevel.C1, WritingTaskType.Essay, "c1-essay")]
+    [InlineData(CefrLevel.C1, WritingTaskType.Proposal, "c1-report")]
+    [InlineData(CefrLevel.C2, WritingTaskType.Essay, "c2-essay")]
+    [InlineData(CefrLevel.C2, WritingTaskType.Review, "c2-part2")]
+    [InlineData(CefrLevel.C2, WritingTaskType.Other, "c2-essay")]
+    [InlineData(CefrLevel.A1, WritingTaskType.Essay, null)]
+    public async Task Level_and_task_type_pick_the_matching_exam_profile(CefrLevel level, WritingTaskType taskType, string? expectedKey)
+    {
+        await using var db = Context(Alice);
+        await new DataSeeder(NullLogger<DataSeeder>.Instance).SeedAsync(db);
+
+        var match = ProfileMatcher.FindExamProfile(await db.Profiles.ToListAsync(), await db.Rubrics.ToListAsync(), level, taskType);
+
+        Assert.Equal(expectedKey, match?.Key);
     }
 
     private sealed class TestUser(Guid id) : ICurrentUser

@@ -97,6 +97,7 @@ internal sealed class ProfileConfiguration : IEntityTypeConfiguration<Profile>
         builder.Property(e => e.Name).HasMaxLength(200);
         builder.Property(e => e.Description).HasMaxLength(2000);
         builder.Property(e => e.Model).HasMaxLength(200);
+        builder.PrimitiveCollection(e => e.OtherTaskTypes).ElementType().HasConversion<string>();
         builder.HasOne<Rubric>().WithMany().HasForeignKey(e => e.RubricId).OnDelete(DeleteBehavior.Restrict);
         builder.HasIndex(e => new { e.UserId, e.Key }).IsUnique();
     }

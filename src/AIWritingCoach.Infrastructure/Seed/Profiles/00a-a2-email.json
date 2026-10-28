@@ -1,0 +1,4 @@
+{ "key": "a2-email", "version": 1, "name": "A2 Email / Note", "description": "A2 Key Part 6 short email or note (25 words or more).",
+  "level": "A2", "taskType": "Email", "otherTaskTypes": ["Letter"], "rubricKey": "cambridge-a2-key",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 25, "maxWords": null, "sortOrder": 1 }
