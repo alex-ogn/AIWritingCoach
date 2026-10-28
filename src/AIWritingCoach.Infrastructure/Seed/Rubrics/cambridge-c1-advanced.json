@@ -1,0 +1,17 @@
+{
+  "key": "cambridge-c1-advanced",
+  "version": 1,
+  "name": "Cambridge-style C1 Advanced (Writing)",
+  "description": "Four criteria scored 0-5 with C1 expectations, modelled on the public structure of the C1 Advanced writing assessment.",
+  "kind": "Exam",
+  "criteria": [
+    { "key": "content", "name": "Content", "minScore": 0, "maxScore": 5,
+      "description": "All content is relevant, the target reader is fully informed, and points are developed and supported rather than just listed." },
+    { "key": "communicative-achievement", "name": "Communicative Achievement", "minScore": 0, "maxScore": 5,
+      "description": "Uses the conventions of the task type effectively to hold the reader's attention and communicate complex ideas; register and tone are consistently appropriate and purposeful." },
+    { "key": "organisation", "name": "Organisation", "minScore": 0, "maxScore": 5,
+      "description": "Text is well organised and coherent, using a variety of cohesive devices and organisational patterns to generally good effect." },
+    { "key": "language", "name": "Language", "minScore": 0, "maxScore": 5,
+      "description": "Uses a range of vocabulary, including less common lexis, effectively and precisely; uses a wide range of simple and complex grammar with full control, flexibility and sophistication; errors are rare slips." }
+  ]
+}

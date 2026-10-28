@@ -1,0 +1,17 @@
+{
+  "key": "cambridge-b2-first",
+  "version": 1,
+  "name": "Cambridge-style B2 First (Writing)",
+  "description": "Four criteria scored 0-5, modelled on the public structure of the B2 First writing assessment.",
+  "kind": "Exam",
+  "criteria": [
+    { "key": "content", "name": "Content", "minScore": 0, "maxScore": 5,
+      "description": "All content is relevant and the target reader is fully informed; every point required by the task is covered." },
+    { "key": "communicative-achievement", "name": "Communicative Achievement", "minScore": 0, "maxScore": 5,
+      "description": "Uses the conventions of the task type (essay, email, review, article, report) appropriately to hold the reader's attention and communicate straightforward and some complex ideas; register suits the reader." },
+    { "key": "organisation", "name": "Organisation", "minScore": 0, "maxScore": 5,
+      "description": "Text is well organised and coherent, using a variety of cohesive devices and organisational patterns (paragraphing, linking words, referencing)." },
+    { "key": "language", "name": "Language", "minScore": 0, "maxScore": 5,
+      "description": "Uses a range of vocabulary, including less common lexis, and a range of simple and complex grammatical forms with control and flexibility; errors do not impede communication." }
+  ]
+}

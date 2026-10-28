@@ -1,0 +1,4 @@
+{ "key": "quick-proofread", "version": 1, "name": "Quick proofread", "description": "Just fix mistakes; no scoring.",
+  "level": "B2", "taskType": "Other", "rubricKey": "custom-criteria",
+  "criterionKeys": [],
+  "model": null, "minWords": null, "maxWords": null, "sortOrder": 70 }

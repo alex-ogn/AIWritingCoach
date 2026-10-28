@@ -1,0 +1,4 @@
+{ "key": "c1-essay", "version": 1, "name": "C1 Essay", "description": "C1 Advanced Part 1 essay (220-260 words).",
+  "level": "C1", "taskType": "Essay", "rubricKey": "cambridge-c1-advanced",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 220, "maxWords": 260, "sortOrder": 40 }

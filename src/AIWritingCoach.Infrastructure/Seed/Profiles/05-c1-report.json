@@ -1,0 +1,4 @@
+{ "key": "c1-report", "version": 1, "name": "C1 Report / Proposal", "description": "C1 Advanced Part 2 report or proposal (220-260 words).",
+  "level": "C1", "taskType": "Report", "rubricKey": "cambridge-c1-advanced",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 220, "maxWords": 260, "sortOrder": 50 }

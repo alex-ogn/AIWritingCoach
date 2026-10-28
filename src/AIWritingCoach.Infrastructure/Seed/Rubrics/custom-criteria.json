@@ -1,0 +1,19 @@
+{
+  "key": "custom-criteria",
+  "version": 1,
+  "name": "Custom criteria",
+  "description": "Optional criteria that can be added to any check.",
+  "kind": "Custom",
+  "criteria": [
+    { "key": "formality", "name": "Formality", "minScore": 0, "maxScore": 5,
+      "description": "The register matches the intended reader and situation (formal, neutral or informal) consistently, without slang in formal texts or stiffness in informal ones." },
+    { "key": "tone", "name": "Tone", "minScore": 0, "maxScore": 5,
+      "description": "The tone is polite, appropriate and achieves the intended effect (e.g. persuasive, apologetic, friendly, firm)." },
+    { "key": "conciseness", "name": "Conciseness", "minScore": 0, "maxScore": 5,
+      "description": "Says what is needed without repetition, filler or unnecessarily long sentences." },
+    { "key": "clarity", "name": "Clarity", "minScore": 0, "maxScore": 5,
+      "description": "Ideas and requests are easy to understand on first reading; the purpose of the text is clear." },
+    { "key": "length", "name": "Length", "minScore": 0, "maxScore": 5,
+      "description": "The text respects the requested word limits (5 = within limits, lower scores the further outside them) and its length suits the task." }
+  ]
+}

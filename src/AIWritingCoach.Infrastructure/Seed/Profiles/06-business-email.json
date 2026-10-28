@@ -1,0 +1,4 @@
+{ "key": "business-email", "version": 1, "name": "Business email", "description": "Everyday professional email: correct, clear, polite and to the point.",
+  "level": "B2", "taskType": "Email", "rubricKey": "custom-criteria",
+  "criterionKeys": ["formality", "tone", "conciseness", "clarity"],
+  "model": null, "minWords": null, "maxWords": null, "sortOrder": 60 }

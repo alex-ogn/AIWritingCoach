@@ -1,0 +1,4 @@
+{ "key": "b2-essay", "version": 1, "name": "B2 Essay", "description": "B2 First Part 1 essay (140-190 words).",
+  "level": "B2", "taskType": "Essay", "rubricKey": "cambridge-b2-first",
+  "criterionKeys": ["content", "communicative-achievement", "organisation", "language"],
+  "model": null, "minWords": 140, "maxWords": 190, "sortOrder": 10 }
