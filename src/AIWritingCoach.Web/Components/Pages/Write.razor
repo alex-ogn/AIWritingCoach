@@ -91,6 +91,13 @@
         }
     </MudButton>
 
+    <MudMenu Icon="@Icons.Material.Filled.PictureAsPdf" Disabled="_session is null" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
+             aria-label="@L["Write.ExportPdf"]" title="@L["Write.ExportPdf"]">
+        @foreach (var kind in Enum.GetValues<ReviewExportKind>())
+        {
+            <MudMenuItem OnClick="() => ExportAsync(kind)">@L[$"Pdf.Kind.{kind}"]</MudMenuItem>
+        }
+    </MudMenu>
     <MudIconButton Icon="@(_panelOpen ? Icons.Material.Filled.KeyboardDoubleArrowRight : Icons.Material.Filled.KeyboardDoubleArrowLeft)"
                    Disabled="_session is null" OnClick="() => _panelOpen = !_panelOpen" aria-label="@L["Write.TogglePanel"]" />
     <MudIconButton Icon="@Icons.Material.Filled.NoteAdd" Href="/" aria-label="@L["Write.New"]" title="@L["Write.New"]" />
@@ -466,6 +473,10 @@
         _viewMode = ViewMode.Edit;
         Snackbar.Add(L["Write.Applied"], Severity.Success);
     }
+
+    // Decisions are saved as they are made, so the endpoint renders exactly what is on screen.
+    private async Task ExportAsync(ReviewExportKind kind) =>
+        await JS.InvokeVoidAsync("aiwc.download", ExportEndpoints.PdfUrl(_session!.Review.Id, kind));
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -136,4 +136,15 @@
   <data name="Settings.ApiKeyMissing" xml:space="preserve"><value>Липсва</value></data>
   <data name="Settings.ApiKeyHelp" xml:space="preserve"><value>Задайте го с user-secrets и рестартирайте приложението:</value></data>
   <data name="TaskType.Story" xml:space="preserve"><value>Разказ</value></data>
+  <data name="Write.ExportPdf" xml:space="preserve"><value>Експорт в PDF</value></data>
+  <data name="Pdf.Kind.Original" xml:space="preserve"><value>Оригинален текст</value></data>
+  <data name="Pdf.Kind.Corrected" xml:space="preserve"><value>Коригиран текст</value></data>
+  <data name="Pdf.Kind.Annotated" xml:space="preserve"><value>Текст с корекции и предложения</value></data>
+  <data name="Pdf.Untitled" xml:space="preserve"><value>Текст без заглавие</value></data>
+  <data name="Pdf.Caption" xml:space="preserve"><value>{0} · проверен {1} · {2} думи</value></data>
+  <data name="Pdf.Levels" xml:space="preserve"><value>Целево ниво: {0} · Оценено ниво: {1}</value></data>
+  <data name="Pdf.Task" xml:space="preserve"><value>Задача</value></data>
+  <data name="Pdf.MarkedText" xml:space="preserve"><value>Вашият текст с корекции</value></data>
+  <data name="Pdf.Legend" xml:space="preserve"><value>Червено зачертано: премахнато · Зелено подчертано: добавено · Сиво: отхвърлени корекции · Малките числа сочат към списъка с грешки по-долу.</value></data>
+  <data name="Pdf.ScoresTotal" xml:space="preserve"><value>Оценки: {0} / {1} ({2}%)</value></data>
 </root>

@@ -2,9 +2,11 @@ using System.Diagnostics;
 using AIWritingCoach.Core.Users;
 using AIWritingCoach.Infrastructure;
 using AIWritingCoach.Infrastructure.Data;
+using AIWritingCoach.Infrastructure.Export;
 using AIWritingCoach.Web;
 using AIWritingCoach.Web.Components;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,7 @@ switch (appOptions.Mode)
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddLocalization(o => o.ResourcesPath = "Resources");
+builder.Services.AddSingleton(sp => new ReviewPdfExporter(sp.GetRequiredService<IStringLocalizer<SharedResource>>()));
 // Bottom-right so notifications never cover the Write toolbar.
 builder.Services.AddMudServices(o => o.SnackbarConfiguration.PositionClass = MudBlazor.Defaults.Classes.Position.BottomRight);
 builder.Services.AddRazorComponents()
@@ -71,6 +74,8 @@ app.MapGet("/culture/set", (string culture, string? redirectUri, HttpContext con
 
     return Results.LocalRedirect(string.IsNullOrEmpty(redirectUri) || !redirectUri.StartsWith('/') ? "/" : redirectUri);
 });
+
+app.MapExportEndpoints();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

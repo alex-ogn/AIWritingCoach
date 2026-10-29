@@ -136,4 +136,15 @@
   <data name="Settings.ApiKeyMissing" xml:space="preserve"><value>Missing</value></data>
   <data name="Settings.ApiKeyHelp" xml:space="preserve"><value>Set it with user-secrets and restart the app:</value></data>
   <data name="TaskType.Story" xml:space="preserve"><value>Story</value></data>
+  <data name="Write.ExportPdf" xml:space="preserve"><value>Export as PDF</value></data>
+  <data name="Pdf.Kind.Original" xml:space="preserve"><value>Original text</value></data>
+  <data name="Pdf.Kind.Corrected" xml:space="preserve"><value>Corrected text</value></data>
+  <data name="Pdf.Kind.Annotated" xml:space="preserve"><value>Text with corrections and suggestions</value></data>
+  <data name="Pdf.Untitled" xml:space="preserve"><value>Untitled text</value></data>
+  <data name="Pdf.Caption" xml:space="preserve"><value>{0} · checked {1} · {2} words</value></data>
+  <data name="Pdf.Levels" xml:space="preserve"><value>Target level: {0} · Estimated level: {1}</value></data>
+  <data name="Pdf.Task" xml:space="preserve"><value>Task</value></data>
+  <data name="Pdf.MarkedText" xml:space="preserve"><value>Your text with corrections</value></data>
+  <data name="Pdf.Legend" xml:space="preserve"><value>Red strikethrough: removed · Green underline: added · Grey: corrections you rejected · Small numbers refer to the list of mistakes below.</value></data>
+  <data name="Pdf.ScoresTotal" xml:space="preserve"><value>Scores: {0} / {1} ({2}%)</value></data>
 </root>

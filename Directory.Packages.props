@@ -18,6 +18,7 @@
     <PackageVersion Include="OpenAI" Version="2.14.0" />
     <!-- Text -->
     <PackageVersion Include="DiffPlex" Version="1.9.0" />
+    <PackageVersion Include="QuestPDF" Version="2026.9.1" />
     <!-- UI -->
     <PackageVersion Include="MudBlazor" Version="9.11.0" />
     <!-- Transitive security pins -->

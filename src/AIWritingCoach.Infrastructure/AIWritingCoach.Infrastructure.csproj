@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
     <PackageReference Include="OpenAI" />
     <PackageReference Include="DiffPlex" />
+    <PackageReference Include="QuestPDF" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" />
   </ItemGroup>
 
