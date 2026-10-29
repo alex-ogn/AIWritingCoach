@@ -112,6 +112,19 @@ internal sealed class ReviewRepository(IAppDbContextFactory factory) : IReviewRe
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<Review>> ListWithDetailsAsync(Guid? profileId = null, CancellationToken cancellationToken = default)
+    {
+        await using var db = factory.Create();
+        return await db.Reviews
+            .AsNoTracking()
+            .AsSplitQuery()
+            .Where(r => profileId == null || r.ProfileId == profileId)
+            .Include(r => r.Errors)
+            .Include(r => r.Scores)
+            .OrderBy(r => r.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(Review review, CancellationToken cancellationToken = default)
     {
         await using var db = factory.Create();

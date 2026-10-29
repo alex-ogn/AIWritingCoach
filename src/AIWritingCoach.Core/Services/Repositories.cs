@@ -27,6 +27,9 @@ public interface IReviewRepository
     /// <summary>Reviews of a document, newest first, without child collections.</summary>
     Task<IReadOnlyList<Review>> ListForDocumentAsync(Guid documentId, CancellationToken cancellationToken = default);
 
+    /// <summary>All reviews with errors and scores (no vocabulary), oldest first; optionally only one profile's.</summary>
+    Task<IReadOnlyList<Review>> ListWithDetailsAsync(Guid? profileId = null, CancellationToken cancellationToken = default);
+
     Task AddAsync(Review review, CancellationToken cancellationToken = default);
 
     Task SaveDecisionsAsync(Guid reviewId, IReadOnlyList<int> rejectedHunkIndexes, string? finalText, CancellationToken cancellationToken = default);

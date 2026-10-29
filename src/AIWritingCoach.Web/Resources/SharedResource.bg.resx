@@ -86,7 +86,29 @@
   <data name="History.DeleteTitle" xml:space="preserve"><value>Изтриване на текст</value></data>
   <data name="History.DeleteConfirm" xml:space="preserve"><value>Да се изтрие ли „{0}“ заедно с всички проверки? Действието е необратимо.</value></data>
   <data name="Progress.PageTitle" xml:space="preserve"><value>Напредък – AI Writing Coach</value></data>
-  <data name="Progress.ComingSoon" xml:space="preserve"><value>Тенденции на оценките, най-честите грешки и сгрешените думи ще се появят тук в следващата версия.</value></data>
+  <data name="Progress.Empty" xml:space="preserve"><value>Все още няма проверки. Проверете текст от екрана „Писане“ и напредъкът ви ще се появи тук.</value></data>
+  <data name="Progress.Profile" xml:space="preserve"><value>Профил</value></data>
+  <data name="Progress.AllProfiles" xml:space="preserve"><value>Всички профили</value></data>
+  <data name="Progress.IncludeRechecks" xml:space="preserve"><value>Включи повторните проверки</value></data>
+  <data name="Progress.IncludeRechecksHelp" xml:space="preserve"><value>По подразбиране се брои само първата проверка на всеки текст, защото следващите обикновено са на вече поправен текст.</value></data>
+  <data name="Progress.Texts" xml:space="preserve"><value>Текстове</value></data>
+  <data name="Progress.ChecksCount" xml:space="preserve"><value>{0} проверки</value></data>
+  <data name="Progress.Words" xml:space="preserve"><value>Написани думи</value></data>
+  <data name="Progress.AverageScore" xml:space="preserve"><value>Среден резултат</value></data>
+  <data name="Progress.MistakesPer100" xml:space="preserve"><value>Грешки на 100 думи</value></data>
+  <data name="Progress.FirstVsLast" xml:space="preserve"><value>средно от последните {1} проверки · {0} в първите {1}</value></data>
+  <data name="Progress.NeedMoreChecks" xml:space="preserve"><value>Нужни са поне две проверки.</value></data>
+  <data name="Progress.ScoreTrend" xml:space="preserve"><value>Резултат във времето (%)</value></data>
+  <data name="Progress.Score" xml:space="preserve"><value>Резултат</value></data>
+  <data name="Progress.LevelTrend" xml:space="preserve"><value>Оценено ниво във времето</value></data>
+  <data name="Progress.Estimated" xml:space="preserve"><value>Оценено</value></data>
+  <data name="Progress.TargetLevel" xml:space="preserve"><value>Цел</value></data>
+  <data name="Progress.Criteria" xml:space="preserve"><value>Резултати по критерии</value></data>
+  <data name="Progress.CriteriaHelp" xml:space="preserve"><value>Средно от проверките, най-слабите първи. Изберете профил, за да сравнявате сходни задачи.</value></data>
+  <data name="Progress.Latest" xml:space="preserve"><value>последно {0}%</value></data>
+  <data name="Progress.NoScores" xml:space="preserve"><value>Все още няма оценени проверки.</value></data>
+  <data name="Progress.CommonMistakes" xml:space="preserve"><value>Най-чести грешки</value></data>
+  <data name="Progress.CommonMistakesHelp" xml:space="preserve"><value>Какво да упражнявате: видове грешки и най-честите им подвидове.</value></data>
   <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Речник – AI Writing Coach</value></data>
   <data name="Vocabulary.Intro" xml:space="preserve"><value>Сгрешено изписаните думи се добавят автоматично след всяка проверка. Добавяйте подобрения на речника от панела с „Добави в речника“.</value></data>
   <data name="Vocabulary.Empty" xml:space="preserve"><value>Речникът ви е празен. Проверете текст от екрана „Писане“ – сгрешените думи и добавените подобрения ще се появят тук.</value></data>

@@ -137,6 +137,9 @@ public class WritingCoachServiceTests
         public Task<IReadOnlyList<Review>> ListForDocumentAsync(Guid documentId, CancellationToken cancellationToken = default) =>
             Task.FromResult<IReadOnlyList<Review>>(Items.Where(r => r.DocumentId == documentId).ToList());
 
+        public Task<IReadOnlyList<Review>> ListWithDetailsAsync(Guid? profileId = null, CancellationToken cancellationToken = default) =>
+            throw new NotSupportedException();
+
         public Task AddAsync(Review review, CancellationToken cancellationToken = default)
         {
             Items.Add(review);

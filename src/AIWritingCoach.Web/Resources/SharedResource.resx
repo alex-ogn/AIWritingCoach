@@ -86,7 +86,29 @@
   <data name="History.DeleteTitle" xml:space="preserve"><value>Delete text</value></data>
   <data name="History.DeleteConfirm" xml:space="preserve"><value>Delete &quot;{0}&quot; and all its checks? This cannot be undone.</value></data>
   <data name="Progress.PageTitle" xml:space="preserve"><value>Progress – AI Writing Coach</value></data>
-  <data name="Progress.ComingSoon" xml:space="preserve"><value>Score trends, most frequent mistakes and misspelled words will appear here in the next version.</value></data>
+  <data name="Progress.Empty" xml:space="preserve"><value>No checks yet. Check a text on the Write screen and your progress will appear here.</value></data>
+  <data name="Progress.Profile" xml:space="preserve"><value>Profile</value></data>
+  <data name="Progress.AllProfiles" xml:space="preserve"><value>All profiles</value></data>
+  <data name="Progress.IncludeRechecks" xml:space="preserve"><value>Include re-checks</value></data>
+  <data name="Progress.IncludeRechecksHelp" xml:space="preserve"><value>By default only the first check of each text counts, because later checks usually run on already-corrected text.</value></data>
+  <data name="Progress.Texts" xml:space="preserve"><value>Texts</value></data>
+  <data name="Progress.ChecksCount" xml:space="preserve"><value>{0} checks</value></data>
+  <data name="Progress.Words" xml:space="preserve"><value>Words written</value></data>
+  <data name="Progress.AverageScore" xml:space="preserve"><value>Average score</value></data>
+  <data name="Progress.MistakesPer100" xml:space="preserve"><value>Mistakes per 100 words</value></data>
+  <data name="Progress.FirstVsLast" xml:space="preserve"><value>average of your last {1} checks · was {0} in your first {1}</value></data>
+  <data name="Progress.NeedMoreChecks" xml:space="preserve"><value>Needs at least two checks.</value></data>
+  <data name="Progress.ScoreTrend" xml:space="preserve"><value>Score over time (%)</value></data>
+  <data name="Progress.Score" xml:space="preserve"><value>Score</value></data>
+  <data name="Progress.LevelTrend" xml:space="preserve"><value>Estimated level over time</value></data>
+  <data name="Progress.Estimated" xml:space="preserve"><value>Estimated</value></data>
+  <data name="Progress.TargetLevel" xml:space="preserve"><value>Target</value></data>
+  <data name="Progress.Criteria" xml:space="preserve"><value>Scores by criterion</value></data>
+  <data name="Progress.CriteriaHelp" xml:space="preserve"><value>Average across checks, weakest first. Pick a profile to compare like with like.</value></data>
+  <data name="Progress.Latest" xml:space="preserve"><value>latest {0}%</value></data>
+  <data name="Progress.NoScores" xml:space="preserve"><value>No scored checks yet.</value></data>
+  <data name="Progress.CommonMistakes" xml:space="preserve"><value>Most common mistakes</value></data>
+  <data name="Progress.CommonMistakesHelp" xml:space="preserve"><value>What to practise next: mistake types and their most frequent details.</value></data>
   <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Vocabulary – AI Writing Coach</value></data>
   <data name="Vocabulary.Intro" xml:space="preserve"><value>Words you misspelled are added automatically after each check. Add vocabulary upgrades from the review panel with &quot;Add to vocabulary&quot;.</value></data>
   <data name="Vocabulary.Empty" xml:space="preserve"><value>Your vocabulary is empty. Check a text on the Write screen – misspelled words and the upgrades you add will appear here.</value></data>

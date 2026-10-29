@@ -1,8 +1,242 @@
 @page "/progress"
+@inject IReviewRepository Reviews
+@inject IProfileRepository ProfileRepository
 
 <PageTitle>@L["Progress.PageTitle"]</PageTitle>
 
-<div class="page page-narrow">
-    <MudText Typo="Typo.h5" Class="mb-4">@L["Nav.Progress"]</MudText>
-    <MudAlert Severity="Severity.Info">@L["Progress.ComingSoon"]</MudAlert>
+<div class="page">
+    <div class="progress-toolbar">
+        <MudText Typo="Typo.h5">@L["Nav.Progress"]</MudText>
+        <MudSpacer />
+        <MudSelect T="Guid?" Value="_profileId" ValueChanged="OnProfileChangedAsync" Label="@L["Progress.Profile"]"
+                   Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true" Class="progress-profile">
+            <MudSelectItem T="Guid?" Value="null">@L["Progress.AllProfiles"]</MudSelectItem>
+            @foreach (var profile in _profiles)
+            {
+                <MudSelectItem T="Guid?" Value="profile.Id">@profile.Name</MudSelectItem>
+            }
+        </MudSelect>
+        <MudTooltip Text="@L["Progress.IncludeRechecksHelp"]">
+            <MudSwitch T="bool" Value="_includeRechecks" ValueChanged="OnIncludeRechecksChanged" Color="Color.Primary" Label="@L["Progress.IncludeRechecks"]" />
+        </MudTooltip>
+    </div>
+
+    @if (_report is null)
+    {
+        <MudProgressLinear Indeterminate="true" />
+    }
+    else if (_report.Checks == 0)
+    {
+        <MudAlert Severity="Severity.Info">@L["Progress.Empty"]</MudAlert>
+    }
+    else
+    {
+        <div class="stat-tiles">
+            <MudPaper Class="stat-tile" Elevation="1">
+                <MudText Typo="Typo.caption">@L["Progress.Texts"]</MudText>
+                <MudText Typo="Typo.h5">@_report.Texts</MudText>
+                <MudText Typo="Typo.caption">@L["Progress.ChecksCount", _report.Checks]</MudText>
+            </MudPaper>
+            <MudPaper Class="stat-tile" Elevation="1">
+                <MudText Typo="Typo.caption">@L["Progress.Words"]</MudText>
+                <MudText Typo="Typo.h5">@_report.Words.ToString("N0")</MudText>
+            </MudPaper>
+            <MudPaper Class="stat-tile" Elevation="1">
+                <MudText Typo="Typo.caption">@L["Progress.AverageScore"]</MudText>
+                @ComparisonTile(_report.Score, "0'%'", higherIsBetter: true)
+            </MudPaper>
+            <MudPaper Class="stat-tile" Elevation="1">
+                <MudText Typo="Typo.caption">@L["Progress.MistakesPer100"]</MudText>
+                @ComparisonTile(_report.MistakesPer100Words, "0.0", higherIsBetter: false)
+            </MudPaper>
+        </div>
+
+        <div class="progress-grid">
+            <MudPaper Class="progress-card" Elevation="1">
+                <MudText Typo="Typo.subtitle1">@L["Progress.ScoreTrend"]</MudText>
+                @if (_report.ScoreTrend.Count < 2)
+                {
+                    <MudText Typo="Typo.body2" Class="progress-empty">@L["Progress.NeedMoreChecks"]</MudText>
+                }
+                else
+                {
+                    <MudChart T="double" ChartType="ChartType.Line" ChartSeries="_scoreSeries" ChartLabels="_scoreLabels"
+                              ChartOptions="_scoreOptions" Height="260px" Width="100%" />
+                }
+            </MudPaper>
+
+            <MudPaper Class="progress-card" Elevation="1">
+                <MudText Typo="Typo.subtitle1">@L["Progress.LevelTrend"]</MudText>
+                @if (_report.LevelTrend.Count < 2)
+                {
+                    <MudText Typo="Typo.body2" Class="progress-empty">@L["Progress.NeedMoreChecks"]</MudText>
+                }
+                else
+                {
+                    <MudChart T="double" ChartType="ChartType.Line" ChartSeries="_levelSeries" ChartLabels="_levelLabels"
+                              ChartOptions="_levelOptions" Height="260px" Width="100%" />
+                }
+            </MudPaper>
+
+            <MudPaper Class="progress-card" Elevation="1">
+                <MudText Typo="Typo.subtitle1">@L["Progress.Criteria"]</MudText>
+                <MudText Typo="Typo.caption" Class="mb-2 d-block">@L["Progress.CriteriaHelp"]</MudText>
+                @if (_report.Criteria.Count == 0)
+                {
+                    <MudText Typo="Typo.body2" Class="progress-empty">@L["Progress.NoScores"]</MudText>
+                }
+                @foreach (var criterion in _report.Criteria)
+                {
+                    <div class="score-row">
+                        <div class="score-head">
+                            <span>@criterion.Name</span>
+                            <span>
+                                <strong>@criterion.AveragePercent.ToString("0")%</strong>
+                                <MudText Typo="Typo.caption" Inline="true" Class="ml-1">@L["Progress.Latest", criterion.LatestPercent.ToString("0")]</MudText>
+                            </span>
+                        </div>
+                        <MudProgressLinear Value="criterion.AveragePercent" Color="ScoreColor(criterion.AveragePercent)" Rounded="true" Size="Size.Small" />
+                    </div>
+                }
+            </MudPaper>
+
+            <MudPaper Class="progress-card" Elevation="1">
+                <MudText Typo="Typo.subtitle1">@L["Progress.CommonMistakes"]</MudText>
+                <MudText Typo="Typo.caption" Class="mb-2 d-block">@L["Progress.CommonMistakesHelp"]</MudText>
+                @if (_report.MistakeCategories.Count == 0)
+                {
+                    <MudText Typo="Typo.body2" Class="progress-empty">@L["Panel.NoErrors"]</MudText>
+                }
+                @foreach (var category in _report.MistakeCategories.Take(8))
+                {
+                    <div class="score-row">
+                        <div class="score-head">
+                            <span>@category.Category</span>
+                            <span><strong>@category.Count</strong> <MudText Typo="Typo.caption" Inline="true">(@category.Share.ToString("0")%)</MudText></span>
+                        </div>
+                        <MudProgressLinear Value="100.0 * category.Count / _report.MistakeCategories[0].Count" Color="Color.Warning" Rounded="true" Size="Size.Small" />
+                        @if (category.TopSubcategories.Count > 0)
+                        {
+                            <MudText Typo="Typo.caption" Class="score-comment">
+                                @string.Join(" · ", category.TopSubcategories.Select(s => $"{s.Subcategory} ({s.Count})"))
+                            </MudText>
+                        }
+                    </div>
+                }
+            </MudPaper>
+        </div>
+    }
 </div>
+
+@code {
+    private static readonly string[] LevelNames = ["", .. Enum.GetNames<CefrLevel>()];
+
+    private IReadOnlyList<Profile> _profiles = [];
+    private IReadOnlyList<Review> _reviews = [];
+    private Guid? _profileId;
+    private bool _includeRechecks;
+    private ProgressReport? _report;
+
+    private List<ChartSeries<double>> _scoreSeries = [];
+    private string[] _scoreLabels = [];
+    private List<ChartSeries<double>> _levelSeries = [];
+    private string[] _levelLabels = [];
+
+    private readonly LineChartOptions _scoreOptions = new()
+    {
+        YAxisSuggestedMax = 100,
+        YAxisTicks = 20,
+        ShowLegend = false,
+        InterpolationOption = InterpolationOption.Straight,
+    };
+
+    private readonly LineChartOptions _levelOptions = new()
+    {
+        YAxisSuggestedMax = LevelNames.Length - 1,
+        YAxisTicks = 1,
+        YAxisToStringFunc = v => v >= 1 && v < LevelNames.Length ? LevelNames[(int)Math.Round(v)] : string.Empty,
+        InterpolationOption = InterpolationOption.Straight,
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var reviewsTask = Reviews.ListWithDetailsAsync();
+        var profiles = await ProfileRepository.ListAsync();
+        _reviews = await reviewsTask;
+
+        // Only offer profiles that have been used.
+        var used = _reviews.Select(r => r.ProfileId).ToHashSet();
+        _profiles = [.. profiles.Where(p => used.Contains(p.Id))];
+        Rebuild();
+    }
+
+    private Task OnProfileChangedAsync(Guid? profileId)
+    {
+        _profileId = profileId;
+        Rebuild();
+        return Task.CompletedTask;
+    }
+
+    private void OnIncludeRechecksChanged(bool value)
+    {
+        _includeRechecks = value;
+        Rebuild();
+    }
+
+    private void Rebuild()
+    {
+        var reviews = _profileId is { } id ? _reviews.Where(r => r.ProfileId == id) : _reviews;
+        _report = ProgressReport.Build(reviews, _includeRechecks);
+
+        _scoreLabels = [.. _report.ScoreTrend.Select(p => DateLabel(p.CheckedAt))];
+        _scoreSeries =
+        [
+            new() { Name = L["Progress.Score"], Data = new ChartData<double>([.. _report.ScoreTrend.Select(p => p.Value)]) },
+        ];
+
+        _levelLabels = [.. _report.LevelTrend.Select(p => DateLabel(p.CheckedAt))];
+        _levelSeries =
+        [
+            new() { Name = L["Progress.Estimated"], Data = new ChartData<double>([.. _report.LevelTrend.Select(p => (double)p.Level + 1)]) },
+        ];
+
+        // Targets of different profiles would make a meaningless zig-zag, so the target line needs one profile.
+        if (_profileId is not null)
+        {
+            _levelSeries.Add(new() { Name = L["Progress.TargetLevel"], Data = new ChartData<double>([.. _report.LevelTrend.Select(p => (double)p.Target + 1)]) });
+        }
+
+        _levelOptions.ShowLegend = _levelSeries.Count > 1;
+    }
+
+    private static string DateLabel(DateTime utc) => utc.ToLocalTime().ToString("d MMM");
+
+    private RenderFragment ComparisonTile(ScoreComparison? comparison, string format, bool higherIsBetter) => __builder =>
+    {
+        if (comparison is null)
+        {
+            <MudText Typo="Typo.h5">–</MudText>
+            <MudText Typo="Typo.caption">@L["Progress.NeedMoreChecks"]</MudText>
+            return;
+        }
+
+        var delta = comparison.Last - comparison.First;
+        var improved = higherIsBetter ? delta > 0 : delta < 0;
+        var color = Math.Abs(delta) < 0.05 ? Color.Default : improved ? Color.Success : Color.Error;
+        var icon = delta > 0 ? Icons.Material.Filled.TrendingUp : delta < 0 ? Icons.Material.Filled.TrendingDown : Icons.Material.Filled.TrendingFlat;
+
+        <div class="stat-value">
+            <MudText Typo="Typo.h5">@comparison.Last.ToString(format)</MudText>
+            <MudIcon Icon="@icon" Color="color" Size="Size.Small" />
+        </div>
+        <MudText Typo="Typo.caption">@L["Progress.FirstVsLast", comparison.First.ToString(format), comparison.Size]</MudText>
+    };
+
+    private static Color ScoreColor(double percent) => percent switch
+    {
+        >= 80 => Color.Success,
+        >= 60 => Color.Info,
+        >= 40 => Color.Warning,
+        _ => Color.Error,
+    };
+}
