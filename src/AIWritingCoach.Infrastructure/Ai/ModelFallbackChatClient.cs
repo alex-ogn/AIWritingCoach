@@ -70,7 +70,7 @@ public sealed class ModelFallbackChatClient(
         /// <summary>Do not retry or fall back (bad request, auth).</summary>
         Fatal,
 
-        /// <summary>Retry the same model with backoff (429, 5xx, timeouts).</summary>
+        /// <summary>Retry the same model with backoff (429, 5xx, connection errors).</summary>
         RateLimited,
 
         Transient,
@@ -78,7 +78,7 @@ public sealed class ModelFallbackChatClient(
         /// <summary>Daily quota of free models used up: go straight to the next model.</summary>
         QuotaExhausted,
 
-        /// <summary>Model missing or no credits for it: go straight to the next model.</summary>
+        /// <summary>Model missing, no credits for it, or too slow (timed out): go straight to the next model.</summary>
         NextModel,
     }
 
@@ -86,10 +86,13 @@ public sealed class ModelFallbackChatClient(
     {
         ClientResultException { Status: 429 } c when IsDailyQuota(c) => FailureKind.QuotaExhausted,
         ClientResultException { Status: 429 } => FailureKind.RateLimited,
-        ClientResultException { Status: 402 or 404 } => FailureKind.NextModel,
-        ClientResultException { Status: 408 or >= 500 } => FailureKind.Transient,
+        ClientResultException { Status: 402 or 404 or 408 } => FailureKind.NextModel,
+        ClientResultException { Status: >= 500 } => FailureKind.Transient,
         ClientResultException { Status: 0 } => FailureKind.Transient,
-        HttpRequestException or TimeoutException or TaskCanceledException => FailureKind.Transient,
+
+        // A model that already used the whole timeout will likely do so again; retrying it only multiplies the wait.
+        TimeoutException or TaskCanceledException => FailureKind.NextModel,
+        HttpRequestException => FailureKind.Transient,
         _ => FailureKind.Fatal,
     };
 

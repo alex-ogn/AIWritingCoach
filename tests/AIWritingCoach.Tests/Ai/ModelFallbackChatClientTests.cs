@@ -46,6 +46,18 @@ public class ModelFallbackChatClientTests
     }
 
     [Fact]
+    public async Task Timeout_skips_straight_to_the_next_model()
+    {
+        var inner = new FakeChatClient(
+            _ => throw new TaskCanceledException("exceeded the configured timeout", new TimeoutException()),
+            o => FakeChatClient.Text("ok", o?.ModelId));
+
+        await Create(inner).GetResponseAsync([new ChatMessage(ChatRole.User, "hi")]);
+
+        Assert.Equal(["a:free", "b:free"], inner.RequestedModels);
+    }
+
+    [Fact]
     public async Task Requested_model_is_tried_first()
     {
         var inner = new FakeChatClient(o => FakeChatClient.Text("ok", o?.ModelId));

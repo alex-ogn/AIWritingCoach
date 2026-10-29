@@ -9,7 +9,7 @@ public sealed class OpenRouterOptions
     /// <summary>Secret. Set via user-secrets (development) or the <c>OpenRouter__ApiKey</c> environment variable.</summary>
     public string? ApiKey { get; set; }
 
-    public string DefaultModel { get; set; } = "google/gemma-4-31b-it:free";
+    public string DefaultModel { get; set; } = "openai/gpt-4o-mini";
 
     /// <summary>Tried in order when the requested model is rate-limited or unavailable (free → paid).</summary>
     public List<string> FallbackModels { get; set; } = [];
@@ -21,7 +21,7 @@ public sealed class OpenRouterOptions
 
     public TimeSpan MaxRetryDelay { get; set; } = TimeSpan.FromSeconds(30);
 
-    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(120);
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(60);
 
     /// <summary>Use JSON-schema structured output; models without support fall back to plain JSON mode.</summary>
     public bool UseJsonSchema { get; set; } = true;
