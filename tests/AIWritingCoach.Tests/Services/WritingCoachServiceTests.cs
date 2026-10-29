@@ -1,6 +1,7 @@
 using AIWritingCoach.Core.Ai;
 using AIWritingCoach.Core.Reviews;
 using AIWritingCoach.Core.Services;
+using AIWritingCoach.Core.Vocabulary;
 using AIWritingCoach.Core.Writing;
 using AIWritingCoach.Infrastructure.Ai;
 using AIWritingCoach.Infrastructure.Diff;
@@ -12,9 +13,36 @@ public class WritingCoachServiceTests
 {
     private readonly InMemoryDocuments _documents = new();
     private readonly InMemoryReviews _reviews = new();
+    private readonly InMemoryVocabulary _vocabulary = new();
 
     private WritingCoachService Create(ReviewResult result) =>
-        new(new FixedAi(result), new DiffPlexTextDiffService(), _documents, _reviews);
+        new(new FixedAi(result), new DiffPlexTextDiffService(), _documents, _reviews, _vocabulary);
+
+    [Fact]
+    public async Task Check_adds_misspelled_words_to_vocabulary_once()
+    {
+        var result = new ReviewResult
+        {
+            CorrectedText = "I believe I will receive it. I believe so.",
+            Errors =
+            [
+                new() { Original = "beleive", Correction = "believe", Category = "Spelling" },
+                new() { Original = "recieve", Correction = "receive", Category = "spelling" },
+                new() { Original = "beleve", Correction = "believe", Category = "Spelling" },
+                new() { Original = "i", Correction = "I", Category = "Capitalisation" },
+            ],
+        };
+        _vocabulary.Items.Add(new VocabularyItem { Word = "Receive" });
+        var document = new WritingDocument { Content = "I beleive i will recieve it. I beleve so." };
+
+        var session = await Create(result).CheckAsync(document, new CheckOptions { Criteria = [] });
+
+        var added = _vocabulary.Items.Skip(1).ToList();
+        var item = Assert.Single(added);
+        Assert.Equal(("believe", "beleive"), (item.Word, item.Replaces));
+        Assert.Equal(VocabularySource.Spelling, item.Source);
+        Assert.Equal(session.Review.Id, item.SourceReviewId);
+    }
 
     [Fact]
     public async Task Check_saves_review_maps_scores_and_links_errors()
@@ -75,6 +103,26 @@ public class WritingCoachServiceTests
 
             return Task.CompletedTask;
         }
+
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) => throw new NotSupportedException();
+    }
+
+    private sealed class InMemoryVocabulary : IVocabularyRepository
+    {
+        public List<VocabularyItem> Items { get; } = [];
+
+        public Task<IReadOnlyList<VocabularyItem>> ListAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult<IReadOnlyList<VocabularyItem>>(Items);
+
+        public Task<IReadOnlyList<VocabularyItem>> AddMissingAsync(IReadOnlyList<VocabularyItem> items, CancellationToken cancellationToken = default)
+        {
+            var existing = Items.Select(i => i.Word).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var added = items.Where(i => existing.Add(i.Word)).ToList();
+            Items.AddRange(added);
+            return Task.FromResult<IReadOnlyList<VocabularyItem>>(added);
+        }
+
+        public Task SetStatusAsync(Guid id, VocabularyStatus status, CancellationToken cancellationToken = default) => throw new NotSupportedException();
 
         public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) => throw new NotSupportedException();
     }

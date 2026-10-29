@@ -355,6 +355,39 @@ pre.code {
     border-bottom: 1px dashed var(--mud-palette-lines-default);
 }
 
+.vocab-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.vocab-add {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* ---------- Vocabulary page ---------- */
+.vocab-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.vocab-search {
+    max-width: 260px;
+}
+
+.vocab-learned td {
+    color: var(--mud-palette-text-disabled);
+}
+
+.vocab-learned .vocab-word {
+    text-decoration: line-through;
+}
+
 .panel-footer {
     display: block;
     margin-top: 20px;

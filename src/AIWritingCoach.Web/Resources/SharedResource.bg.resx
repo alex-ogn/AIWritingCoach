@@ -56,6 +56,9 @@
   <data name="Panel.Removed" xml:space="preserve"><value>(премахнато)</value></data>
   <data name="Panel.NotInDiff" xml:space="preserve"><value>Тази промяна не може да бъде открита в текста.</value></data>
   <data name="Panel.Vocabulary" xml:space="preserve"><value>Подобрения на речника</value></data>
+  <data name="Panel.AddToVocabulary" xml:space="preserve"><value>Добави в речника</value></data>
+  <data name="Panel.InVocabulary" xml:space="preserve"><value>В речника</value></data>
+  <data name="Panel.AddedToVocabulary" xml:space="preserve"><value>„{0}“ е добавена в речника.</value></data>
   <data name="Panel.Meta" xml:space="preserve"><value>{0} · {1} · {2} думи</value></data>
   <data name="Severity.Minor" xml:space="preserve"><value>Дребна</value></data>
   <data name="Severity.Moderate" xml:space="preserve"><value>Средна</value></data>
@@ -85,7 +88,20 @@
   <data name="Progress.PageTitle" xml:space="preserve"><value>Напредък – AI Writing Coach</value></data>
   <data name="Progress.ComingSoon" xml:space="preserve"><value>Тенденции на оценките, най-честите грешки и сгрешените думи ще се появят тук в следващата версия.</value></data>
   <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Речник – AI Writing Coach</value></data>
-  <data name="Vocabulary.ComingSoon" xml:space="preserve"><value>Списъкът с думи, които да започнете да използвате (с „научена“), ще се появи тук в следващата версия.</value></data>
+  <data name="Vocabulary.Intro" xml:space="preserve"><value>Сгрешено изписаните думи се добавят автоматично след всяка проверка. Добавяйте подобрения на речника от панела с „Добави в речника“.</value></data>
+  <data name="Vocabulary.Empty" xml:space="preserve"><value>Речникът ви е празен. Проверете текст от екрана „Писане“ – сгрешените думи и добавените подобрения ще се появят тук.</value></data>
+  <data name="Vocabulary.NoMatches" xml:space="preserve"><value>Няма думи, отговарящи на филтрите.</value></data>
+  <data name="Vocabulary.All" xml:space="preserve"><value>Всички</value></data>
+  <data name="Vocabulary.HideLearned" xml:space="preserve"><value>Скрий научените</value></data>
+  <data name="Vocabulary.Learned" xml:space="preserve"><value>Научена</value></data>
+  <data name="Vocabulary.Word" xml:space="preserve"><value>Дума</value></data>
+  <data name="Vocabulary.InsteadOf" xml:space="preserve"><value>Вместо</value></data>
+  <data name="Vocabulary.SourceHeader" xml:space="preserve"><value>Източник</value></data>
+  <data name="Vocabulary.Example" xml:space="preserve"><value>Пример</value></data>
+  <data name="Vocabulary.Added" xml:space="preserve"><value>Добавена</value></data>
+  <data name="Vocabulary.Source.Manual" xml:space="preserve"><value>Ръчно</value></data>
+  <data name="Vocabulary.Source.Spelling" xml:space="preserve"><value>Правопис</value></data>
+  <data name="Vocabulary.Source.Upgrade" xml:space="preserve"><value>Подобрение</value></data>
   <data name="Settings.PageTitle" xml:space="preserve"><value>Настройки – AI Writing Coach</value></data>
   <data name="Settings.Language" xml:space="preserve"><value>Език</value></data>
   <data name="Settings.About" xml:space="preserve"><value>Конфигурация</value></data>

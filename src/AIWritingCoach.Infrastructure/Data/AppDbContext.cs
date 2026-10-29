@@ -75,6 +75,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUser c
         builder.Properties<ErrorSeverity>().HaveConversion<string>().HaveMaxLength(16);
         builder.Properties<RubricKind>().HaveConversion<string>().HaveMaxLength(16);
         builder.Properties<VocabularyStatus>().HaveConversion<string>().HaveMaxLength(16);
+        builder.Properties<VocabularySource>().HaveConversion<string>().HaveMaxLength(16);
         builder.Properties<AiCallStatus>().HaveConversion<string>().HaveMaxLength(16);
     }
 

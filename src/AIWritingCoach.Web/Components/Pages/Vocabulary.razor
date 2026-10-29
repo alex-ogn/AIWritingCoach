@@ -1,8 +1,103 @@
 @page "/vocabulary"
+@using AIWritingCoach.Core.Vocabulary
+@inject IVocabularyRepository Repository
 
 <PageTitle>@L["Vocabulary.PageTitle"]</PageTitle>
 
-<div class="page page-narrow">
-    <MudText Typo="Typo.h5" Class="mb-4">@L["Nav.Vocabulary"]</MudText>
-    <MudAlert Severity="Severity.Info">@L["Vocabulary.ComingSoon"]</MudAlert>
+<div class="page">
+    <MudText Typo="Typo.h5" Class="mb-1">@L["Nav.Vocabulary"]</MudText>
+    <MudText Typo="Typo.body2" Class="mb-4">@L["Vocabulary.Intro"]</MudText>
+
+    @if (_items is null)
+    {
+        <MudProgressLinear Indeterminate="true" />
+    }
+    else if (_items.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info">@L["Vocabulary.Empty"]</MudAlert>
+    }
+    else
+    {
+        <div class="vocab-filters">
+            <MudTextField T="string" @bind-Value="_search" Placeholder="@L["Common.Search"]" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Margin="Margin.Dense" Immediate="true" Class="vocab-search" />
+            <MudChipSet T="VocabularySource?" @bind-SelectedValue="_source" SelectionMode="SelectionMode.SingleSelection" CheckMark="true">
+                <MudChip T="VocabularySource?" Value="null" Default="true">@L["Vocabulary.All"] (@_items.Count)</MudChip>
+                @foreach (var source in Enum.GetValues<VocabularySource>().Where(s => _items.Any(i => i.Source == s)))
+                {
+                    <MudChip T="VocabularySource?" Value="source">@L[$"Vocabulary.Source.{source}"] (@_items.Count(i => i.Source == source))</MudChip>
+                }
+            </MudChipSet>
+            <MudSpacer />
+            <MudSwitch T="bool" @bind-Value="_hideLearned" Color="Color.Primary" Label="@L["Vocabulary.HideLearned"]" />
+        </div>
+
+        <MudTable T="VocabularyItem" Items="Filtered" Hover="true" Dense="true" Elevation="1"
+                  RowClassFunc="@((item, _) => item.Status == VocabularyStatus.Learned ? "vocab-learned" : null)">
+            <HeaderContent>
+                <MudTh Style="width:48px">@L["Vocabulary.Learned"]</MudTh>
+                <MudTh>@L["Vocabulary.Word"]</MudTh>
+                <MudTh Style="white-space:nowrap">@L["Vocabulary.InsteadOf"]</MudTh>
+                <MudTh>@L["Write.Level"]</MudTh>
+                <MudTh>@L["Vocabulary.SourceHeader"]</MudTh>
+                <MudTh>@L["Vocabulary.Example"]</MudTh>
+                <MudTh>@L["Vocabulary.Added"]</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>
+                    <MudCheckBox T="bool" Value="context.Status == VocabularyStatus.Learned" ValueChanged="v => SetLearnedAsync(context, v)"
+                                 Color="Color.Success" Size="Size.Small" aria-label="@L["Vocabulary.Learned"]" />
+                </MudTd>
+                <MudTd><strong class="vocab-word">@context.Word</strong></MudTd>
+                <MudTd>
+                    @if (!string.IsNullOrWhiteSpace(context.Replaces))
+                    {
+                        <span class="err-orig plain">@context.Replaces</span>
+                    }
+                </MudTd>
+                <MudTd>@(context.CefrLevel?.ToString() ?? "–")</MudTd>
+                <MudTd>
+                    <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined"
+                             Color="@(context.Source == VocabularySource.Spelling ? Color.Error : Color.Info)">@L[$"Vocabulary.Source.{context.Source}"]</MudChip>
+                </MudTd>
+                <MudTd><em>@context.Example</em></MudTd>
+                <MudTd>@context.CreatedAt.ToLocalTime().ToString("d")</MudTd>
+                <MudTd>
+                    <MudIconButton Icon="@Icons.Material.Outlined.Delete" Size="Size.Small" aria-label="@L["Common.Delete"]" OnClick="() => DeleteAsync(context)" />
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText Typo="Typo.body2">@L["Vocabulary.NoMatches"]</MudText>
+            </NoRecordsContent>
+        </MudTable>
+    }
 </div>
+
+@code {
+    private List<VocabularyItem>? _items;
+    private string? _search;
+    private VocabularySource? _source;
+    private bool _hideLearned;
+
+    private IEnumerable<VocabularyItem> Filtered => _items!
+        .Where(i => _source is null || i.Source == _source)
+        .Where(i => !_hideLearned || i.Status != VocabularyStatus.Learned)
+        .Where(i => string.IsNullOrWhiteSpace(_search)
+            || i.Word.Contains(_search, StringComparison.CurrentCultureIgnoreCase)
+            || i.Replaces?.Contains(_search, StringComparison.CurrentCultureIgnoreCase) == true);
+
+    protected override async Task OnInitializedAsync() => _items = [.. await Repository.ListAsync()];
+
+    private async Task SetLearnedAsync(VocabularyItem item, bool learned)
+    {
+        item.Status = learned ? VocabularyStatus.Learned : VocabularyStatus.New;
+        await Repository.SetStatusAsync(item.Id, item.Status);
+    }
+
+    private async Task DeleteAsync(VocabularyItem item)
+    {
+        await Repository.DeleteAsync(item.Id);
+        _items!.Remove(item);
+    }
+}

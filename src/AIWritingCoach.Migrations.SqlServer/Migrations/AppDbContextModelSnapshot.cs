@@ -482,6 +482,11 @@ namespace AIWritingCoach.Migrations.SqlServer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
                     b.Property<Guid?>("SourceReviewId")
                         .HasColumnType("uniqueidentifier");
 

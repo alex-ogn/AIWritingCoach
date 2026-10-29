@@ -3,6 +3,7 @@ using AIWritingCoach.Core.Common;
 using AIWritingCoach.Core.Diff;
 using AIWritingCoach.Core.Reviews;
 using AIWritingCoach.Core.Rubrics;
+using AIWritingCoach.Core.Vocabulary;
 using AIWritingCoach.Core.Writing;
 
 namespace AIWritingCoach.Core.Services;
@@ -33,7 +34,8 @@ public sealed class WritingCoachService(
     IAiReviewService aiReviewService,
     ITextDiffService diffService,
     IDocumentRepository documents,
-    IReviewRepository reviews)
+    IReviewRepository reviews,
+    IVocabularyRepository vocabulary)
 {
     public async Task<ReviewSession> CheckAsync(WritingDocument document, CheckOptions options, CancellationToken cancellationToken = default)
     {
@@ -62,6 +64,7 @@ public sealed class WritingCoachService(
 
         var review = ReviewMapper.ToReview(document, options, response);
         await reviews.AddAsync(review, cancellationToken);
+        await vocabulary.AddMissingAsync(VocabularyFactory.FromSpellingErrors(review), cancellationToken);
 
         document.LastReviewId = review.Id;
         await documents.SaveAsync(document, cancellationToken);

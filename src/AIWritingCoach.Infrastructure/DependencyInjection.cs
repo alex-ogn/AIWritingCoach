@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IRubricRepository, RubricRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<IPromptTemplateRepository, PromptTemplateRepository>();
+        services.AddScoped<IVocabularyRepository, VocabularyRepository>();
         services.AddScoped<IUsageLogger, UsageLogger>();
 
         services.AddSingleton<ITextDiffService, DiffPlexTextDiffService>();

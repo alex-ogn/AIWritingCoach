@@ -2,6 +2,7 @@ using AIWritingCoach.Core.Reviews;
 using AIWritingCoach.Core.Rubrics;
 using AIWritingCoach.Core.Services;
 using AIWritingCoach.Core.Usage;
+using AIWritingCoach.Core.Vocabulary;
 using AIWritingCoach.Core.Writing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -158,6 +159,55 @@ internal sealed class PromptTemplateRepository(IAppDbContextFactory factory) : I
             .OrderByDescending(t => t.Version)
             .ThenByDescending(t => t.UserId != null)
             .FirstOrDefaultAsync(cancellationToken);
+    }
+}
+
+internal sealed class VocabularyRepository(IAppDbContextFactory factory) : IVocabularyRepository
+{
+    public async Task<IReadOnlyList<VocabularyItem>> ListAsync(CancellationToken cancellationToken = default)
+    {
+        await using var db = factory.Create();
+        return await db.VocabularyItems.AsNoTracking().OrderByDescending(v => v.CreatedAt).ToListAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<VocabularyItem>> AddMissingAsync(IReadOnlyList<VocabularyItem> items, CancellationToken cancellationToken = default)
+    {
+        if (items.Count == 0)
+        {
+            return [];
+        }
+
+        await using var db = factory.Create();
+        // Compared in memory so case-insensitivity does not depend on the database collation.
+        var existing = (await db.VocabularyItems.Select(v => v.Word).ToListAsync(cancellationToken))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var added = items.Where(i => existing.Add(i.Word)).ToList();
+
+        db.VocabularyItems.AddRange(added);
+        await db.SaveChangesAsync(cancellationToken);
+        return added;
+    }
+
+    public async Task SetStatusAsync(Guid id, VocabularyStatus status, CancellationToken cancellationToken = default)
+    {
+        await using var db = factory.Create();
+        var item = await db.VocabularyItems.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        if (item is not null)
+        {
+            item.Status = status;
+            await db.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await using var db = factory.Create();
+        var item = await db.VocabularyItems.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        if (item is not null)
+        {
+            db.VocabularyItems.Remove(item);
+            await db.SaveChangesAsync(cancellationToken);
+        }
     }
 }
 

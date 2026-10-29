@@ -56,6 +56,9 @@
   <data name="Panel.Removed" xml:space="preserve"><value>(removed)</value></data>
   <data name="Panel.NotInDiff" xml:space="preserve"><value>This change could not be located in the text.</value></data>
   <data name="Panel.Vocabulary" xml:space="preserve"><value>Vocabulary upgrades</value></data>
+  <data name="Panel.AddToVocabulary" xml:space="preserve"><value>Add to vocabulary</value></data>
+  <data name="Panel.InVocabulary" xml:space="preserve"><value>In vocabulary</value></data>
+  <data name="Panel.AddedToVocabulary" xml:space="preserve"><value>&quot;{0}&quot; added to your vocabulary.</value></data>
   <data name="Panel.Meta" xml:space="preserve"><value>{0} · {1} · {2} words</value></data>
   <data name="Severity.Minor" xml:space="preserve"><value>Minor</value></data>
   <data name="Severity.Moderate" xml:space="preserve"><value>Moderate</value></data>
@@ -85,7 +88,20 @@
   <data name="Progress.PageTitle" xml:space="preserve"><value>Progress – AI Writing Coach</value></data>
   <data name="Progress.ComingSoon" xml:space="preserve"><value>Score trends, most frequent mistakes and misspelled words will appear here in the next version.</value></data>
   <data name="Vocabulary.PageTitle" xml:space="preserve"><value>Vocabulary – AI Writing Coach</value></data>
-  <data name="Vocabulary.ComingSoon" xml:space="preserve"><value>Your list of words to start using (with &quot;mark as learned&quot;) will appear here in the next version.</value></data>
+  <data name="Vocabulary.Intro" xml:space="preserve"><value>Words you misspelled are added automatically after each check. Add vocabulary upgrades from the review panel with &quot;Add to vocabulary&quot;.</value></data>
+  <data name="Vocabulary.Empty" xml:space="preserve"><value>Your vocabulary is empty. Check a text on the Write screen – misspelled words and the upgrades you add will appear here.</value></data>
+  <data name="Vocabulary.NoMatches" xml:space="preserve"><value>No words match the filters.</value></data>
+  <data name="Vocabulary.All" xml:space="preserve"><value>All</value></data>
+  <data name="Vocabulary.HideLearned" xml:space="preserve"><value>Hide learned</value></data>
+  <data name="Vocabulary.Learned" xml:space="preserve"><value>Learned</value></data>
+  <data name="Vocabulary.Word" xml:space="preserve"><value>Word</value></data>
+  <data name="Vocabulary.InsteadOf" xml:space="preserve"><value>Instead of</value></data>
+  <data name="Vocabulary.SourceHeader" xml:space="preserve"><value>Source</value></data>
+  <data name="Vocabulary.Example" xml:space="preserve"><value>Example</value></data>
+  <data name="Vocabulary.Added" xml:space="preserve"><value>Added</value></data>
+  <data name="Vocabulary.Source.Manual" xml:space="preserve"><value>Manual</value></data>
+  <data name="Vocabulary.Source.Spelling" xml:space="preserve"><value>Spelling</value></data>
+  <data name="Vocabulary.Source.Upgrade" xml:space="preserve"><value>Upgrade</value></data>
   <data name="Settings.PageTitle" xml:space="preserve"><value>Settings – AI Writing Coach</value></data>
   <data name="Settings.Language" xml:space="preserve"><value>Language</value></data>
   <data name="Settings.About" xml:space="preserve"><value>Configuration</value></data>

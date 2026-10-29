@@ -1,4 +1,7 @@
 @* Right-hand panel: level, per-criterion scores, feedback, errors and vocabulary of one review. *@
+@using AIWritingCoach.Core.Vocabulary
+@inject IVocabularyRepository Vocabulary
+@inject ISnackbar Snackbar
 
 <div class="review-panel">
     <div class="panel-header">
@@ -82,17 +85,28 @@
         <MudText Typo="Typo.subtitle2" Class="panel-section">@L["Panel.Vocabulary"]</MudText>
         @foreach (var vocab in Review.VocabularySuggestions)
         {
+            var saved = _savedWords?.Contains(vocab.Suggestion.Trim()) == true;
             <div class="vocab-item">
-                <div>
-                    @if (!string.IsNullOrWhiteSpace(vocab.Original))
+                <div class="vocab-head">
+                    <div>
+                        @if (!string.IsNullOrWhiteSpace(vocab.Original))
+                        {
+                            <span class="err-orig plain">@vocab.Original</span>
+                            <span class="err-arrow">→</span>
+                        }
+                        <strong>@vocab.Suggestion</strong>
+                        @if (vocab.CefrLevel is { } level)
+                        {
+                            <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined" Class="ml-1">@level</MudChip>
+                        }
+                    </div>
+                    @if (_savedWords is not null)
                     {
-                        <span class="err-orig plain">@vocab.Original</span>
-                        <span class="err-arrow">→</span>
-                    }
-                    <strong>@vocab.Suggestion</strong>
-                    @if (vocab.CefrLevel is { } level)
-                    {
-                        <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined" Class="ml-1">@level</MudChip>
+                        <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Class="vocab-add"
+                                   StartIcon="@(saved ? Icons.Material.Filled.Check : Icons.Material.Filled.BookmarkAdd)"
+                                   Disabled="saved" OnClick="() => AddToVocabularyAsync(vocab)">
+                            @(saved ? L["Panel.InVocabulary"] : L["Panel.AddToVocabulary"])
+                        </MudButton>
                     }
                 </div>
                 @if (!string.IsNullOrWhiteSpace(vocab.Example))
@@ -119,6 +133,28 @@
     public EventCallback<ReviewError> OnSelectError { get; set; }
 
     private Review Review => Session.Review;
+
+    // Words already in the user's vocabulary (case-insensitive); null until loaded.
+    private HashSet<string>? _savedWords;
+    private Guid _loadedForReview;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_loadedForReview != Review.Id && Review.VocabularySuggestions.Count > 0)
+        {
+            _loadedForReview = Review.Id;
+            var items = await Vocabulary.ListAsync();
+            _savedWords = items.Select(i => i.Word).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        }
+    }
+
+    private async Task AddToVocabularyAsync(VocabularySuggestion suggestion)
+    {
+        var item = VocabularyFactory.FromSuggestion(Review, suggestion);
+        await Vocabulary.AddMissingAsync([item]);
+        _savedWords!.Add(item.Word);
+        Snackbar.Add(L["Panel.AddedToVocabulary", item.Word], Severity.Success);
+    }
 
     private static Color ScoreColor(double percent) => percent switch
     {
