@@ -31,6 +31,7 @@
   <data name="Write.TogglePanel" xml:space="preserve"><value>Toggle results panel</value></data>
   <data name="Write.New" xml:space="preserve"><value>New text</value></data>
   <data name="Write.TitlePlaceholder" xml:space="preserve"><value>Untitled text</value></data>
+  <data name="Write.SuggestTitle" xml:space="preserve"><value>Suggest a title with AI</value></data>
   <data name="Write.TaskPrompt" xml:space="preserve"><value>Task instructions (optional)</value></data>
   <data name="Write.ContentPlaceholder" xml:space="preserve"><value>Start writing your text here…</value></data>
   <data name="Write.Stale" xml:space="preserve"><value>The text has changed since the last check. Run Check again to see new corrections.</value></data>

@@ -3,6 +3,7 @@
 @using AIWritingCoach.Core.Ai
 @using AIWritingCoach.Core.Common
 @inject WritingCoachService Coach
+@inject IAiReviewService Ai
 @inject IDocumentRepository Documents
 @inject IReviewRepository Reviews
 @inject IProfileRepository ProfileRepository
@@ -105,8 +106,20 @@
 
 <div class="write-grid @(_panelOpen && _session is not null ? "with-panel" : null)">
     <section class="write-main">
-        <MudTextField T="string" @bind-Value="_document.Title" Placeholder="@L["Write.TitlePlaceholder"]" Variant="Variant.Text"
-                      Class="title-field" DebounceInterval="800" OnDebounceIntervalElapsed="_ => AutoSaveAsync()" />
+        <div class="title-row">
+            <MudTextField T="string" @bind-Value="_document.Title" Placeholder="@L["Write.TitlePlaceholder"]" Variant="Variant.Text"
+                          Class="title-field" DebounceInterval="800" OnDebounceIntervalElapsed="_ => AutoSaveAsync()" />
+            @if (_generatingTitle)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mx-3" />
+            }
+            else
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.AutoAwesome" Color="Color.Primary" OnClick="SuggestTitleAsync"
+                               Disabled="!string.IsNullOrWhiteSpace(_document.Title) || !string.IsNullOrWhiteSpace(_document.Content)"
+                               aria-label="@L["Write.SuggestTitle"]" title="@L["Write.SuggestTitle"]" />
+            }
+        </div>
         <MudTextField T="string" @bind-Value="_document.TaskPrompt" Label="@L["Write.TaskPrompt"]" Variant="Variant.Outlined"
                       Lines="2" Sizing="InputSizing.Auto" MaxLines="6" Margin="Margin.Dense" Class="mb-2"
                       DebounceInterval="800" OnDebounceIntervalElapsed="_ => AutoSaveAsync()" />
@@ -194,6 +207,7 @@
     private bool _criteriaOpen;
     private bool _panelOpen = true;
     private bool _checking;
+    private bool _generatingTitle;
     private int? _selectedHunk;
     private int? _selectedError;
     private string? _scrollToId;
@@ -412,13 +426,49 @@
         }
         catch (AiReviewException ex)
         {
-            var details = ex.Reason == AiReviewFailure.NotConfigured ? string.Empty : $" {ex.Message}";
-            Snackbar.Add($"{L[$"Ai.Error.{ex.Reason}"]}{details}", Severity.Error, o => o.VisibleStateDuration = 12000);
+            ShowAiError(ex);
         }
         finally
         {
             _checking = false;
         }
+    }
+
+    // Only offered before anything is written, so the AI picks a topic rather than summarising a text.
+    private async Task SuggestTitleAsync()
+    {
+        if (_document is null || !string.IsNullOrWhiteSpace(_document.Title) || !string.IsNullOrWhiteSpace(_document.Content))
+        {
+            return;
+        }
+
+        _generatingTitle = true;
+        try
+        {
+            _document.Title = await Ai.SuggestTitleAsync(new TitleRequest
+            {
+                ProfileName = _profile?.Name,
+                TaskType = _document.TaskType,
+                TargetLevel = _document.TargetLevel,
+                TaskPrompt = _document.TaskPrompt,
+                Model = _profile?.Model,
+            });
+            await AutoSaveAsync();
+        }
+        catch (AiReviewException ex)
+        {
+            ShowAiError(ex);
+        }
+        finally
+        {
+            _generatingTitle = false;
+        }
+    }
+
+    private void ShowAiError(AiReviewException ex)
+    {
+        var details = ex.Reason == AiReviewFailure.NotConfigured ? string.Empty : $" {ex.Message}";
+        Snackbar.Add($"{L[$"Ai.Error.{ex.Reason}"]}{details}", Severity.Error, o => o.VisibleStateDuration = 12000);
     }
 
     private void SelectHunk(DiffHunk hunk)

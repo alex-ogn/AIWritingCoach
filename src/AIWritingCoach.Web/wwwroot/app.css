@@ -87,6 +87,16 @@ pre.code {
     background: var(--mud-palette-surface);
 }
 
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.title-row .title-field {
+    flex: 1;
+}
+
 .title-field input {
     font-size: 1.4rem;
     font-weight: 500;

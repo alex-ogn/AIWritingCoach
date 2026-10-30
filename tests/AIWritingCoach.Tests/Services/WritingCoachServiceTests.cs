@@ -83,6 +83,9 @@ public class WritingCoachServiceTests
     {
         public Task<AiReviewResponse> ReviewAsync(ReviewRequest request, CancellationToken cancellationToken = default) =>
             Task.FromResult(new AiReviewResponse(result, "test-model", "review", 1, 1));
+
+        public Task<string> SuggestTitleAsync(TitleRequest request, CancellationToken cancellationToken = default) =>
+            Task.FromResult("Test title");
     }
 
     private sealed class InMemoryDocuments : IDocumentRepository

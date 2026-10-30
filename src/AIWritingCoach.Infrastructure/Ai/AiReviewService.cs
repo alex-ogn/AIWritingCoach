@@ -82,6 +82,72 @@ public sealed class AiReviewService(
             "The AI returned an invalid response: " + string.Join("; ", problems));
     }
 
+    private const string TitleSystemPrompt =
+        "You suggest a single title for an English writing task that a learner is about to write. " +
+        "Make it fit the task type and CEFR level, and vary the topic each time. " +
+        "Reply with the title only: no quotes, no explanation.";
+
+    private const int MaxTitleLength = 80;
+
+    public async Task<string> SuggestTitleAsync(TitleRequest request, CancellationToken cancellationToken = default)
+    {
+        if (!options.Value.IsConfigured)
+        {
+            throw new AiReviewException(AiReviewFailure.NotConfigured, "OpenRouter API key is not configured.");
+        }
+
+        var messages = new List<ChatMessage>
+        {
+            new(ChatRole.System, TitleSystemPrompt),
+            new(ChatRole.User, BuildTitlePrompt(request)),
+        };
+
+        var chatOptions = new ChatOptions
+        {
+            ModelId = request.Model,
+            Temperature = 1.0f,
+            MaxOutputTokens = 60,
+        };
+
+        using var feature = AiFeature.Begin("title");
+        var response = await SendAsync(messages, chatOptions, cancellationToken);
+        var title = CleanTitle(response.Text);
+        return title.Length > 0
+            ? title
+            : throw new AiReviewException(AiReviewFailure.InvalidResponse, "The AI returned an empty title.");
+    }
+
+    internal static string BuildTitlePrompt(TitleRequest request)
+    {
+        var instructions = string.IsNullOrWhiteSpace(request.TaskPrompt)
+            ? "(not given - invent a fresh topic suitable for this task type and level)"
+            : request.TaskPrompt.Trim();
+
+        return $"""
+            Task type: {request.TaskType}
+            Target level: {request.TargetLevel}
+            Profile: {(string.IsNullOrWhiteSpace(request.ProfileName) ? "(none)" : request.ProfileName)}
+            Task instructions: {instructions}
+            """;
+    }
+
+    /// <summary>First non-empty line without markdown, quotes or a "Title:" label, capped in length.</summary>
+    internal static string CleanTitle(string? text)
+    {
+        var line = (text ?? string.Empty)
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .FirstOrDefault() ?? string.Empty;
+
+        char[] decoration = ['#', '*', '_', '"', '\'', '“', '”', '«', '»', ' ', '.'];
+        line = line.Trim(decoration);
+        if (line.StartsWith("Title:", StringComparison.OrdinalIgnoreCase))
+        {
+            line = line["Title:".Length..].Trim(decoration);
+        }
+
+        return line.Length > MaxTitleLength ? line[..MaxTitleLength].TrimEnd() + "…" : line;
+    }
+
     private async Task<ChatResponse> SendAsync(List<ChatMessage> messages, ChatOptions chatOptions, CancellationToken cancellationToken)
     {
         try

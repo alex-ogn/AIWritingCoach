@@ -31,6 +31,7 @@
   <data name="Write.TogglePanel" xml:space="preserve"><value>Покажи/скрий резултатите</value></data>
   <data name="Write.New" xml:space="preserve"><value>Нов текст</value></data>
   <data name="Write.TitlePlaceholder" xml:space="preserve"><value>Текст без заглавие</value></data>
+  <data name="Write.SuggestTitle" xml:space="preserve"><value>Предложи заглавие с AI</value></data>
   <data name="Write.TaskPrompt" xml:space="preserve"><value>Условие на задачата (по избор)</value></data>
   <data name="Write.ContentPlaceholder" xml:space="preserve"><value>Започнете да пишете текста си тук…</value></data>
   <data name="Write.Stale" xml:space="preserve"><value>Текстът е променен след последната проверка. Натиснете „Провери“ отново за нови корекции.</value></data>

@@ -28,6 +28,21 @@ public sealed record ReviewRequest
     public string FeedbackLanguage { get; init; } = "English";
 }
 
+/// <summary>What the AI needs to suggest a title for a text that has not been written yet.</summary>
+public sealed record TitleRequest
+{
+    public string? ProfileName { get; init; }
+
+    public WritingTaskType TaskType { get; init; } = WritingTaskType.Essay;
+
+    public CefrLevel TargetLevel { get; init; } = CefrLevel.B2;
+
+    public string? TaskPrompt { get; init; }
+
+    /// <summary>Preferred model; null uses the configured default and fallback chain.</summary>
+    public string? Model { get; init; }
+}
+
 public sealed record AiReviewResponse(
     ReviewResult Result,
     string Model,
@@ -39,6 +54,10 @@ public interface IAiReviewService
 {
     /// <exception cref="AiReviewException">The provider failed or returned no valid result.</exception>
     Task<AiReviewResponse> ReviewAsync(ReviewRequest request, CancellationToken cancellationToken = default);
+
+    /// <summary>Suggests a random title that fits the task type, level and (optional) task instructions.</summary>
+    /// <exception cref="AiReviewException">The provider failed or returned no usable title.</exception>
+    Task<string> SuggestTitleAsync(TitleRequest request, CancellationToken cancellationToken = default);
 }
 
 public enum AiReviewFailure
