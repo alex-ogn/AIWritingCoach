@@ -42,8 +42,29 @@
 
     private readonly MudTheme _theme = new()
     {
-        PaletteLight = new PaletteLight { Primary = "#3f51b5", AppbarBackground = "#3f51b5" },
-        PaletteDark = new PaletteDark { Primary = "#8c9eff" },
+        PaletteLight = new PaletteLight
+        {
+            Primary = "#3f51b5",
+            AppbarBackground = "#3f51b5",
+            Background = "#e9ecf3",
+            BackgroundGray = "#dde1ea",
+            Surface = "#ffffff",
+            DrawerBackground = "#f6f7fb",
+            LinesDefault = "#c5cbd8",
+            LinesInputs = "#9aa3b5",
+            TableLines = "#c5cbd8",
+        },
+        PaletteDark = new PaletteDark
+        {
+            Primary = "#8c9eff",
+            Background = "#1a1b21",
+            BackgroundGray = "#23252d",
+            Surface = "#2a2c35",
+            DrawerBackground = "#1f2027",
+            LinesDefault = "#464a58",
+            LinesInputs = "#6b7084",
+            TableLines = "#464a58",
+        },
     };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

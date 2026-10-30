@@ -13,6 +13,26 @@ html, body {
     padding: 24px;
 }
 
+/* Clear separation between the nav drawer, content and cards. */
+.mud-drawer {
+    border-right: 1px solid var(--mud-palette-lines-default);
+}
+
+.mud-main-content {
+    background: var(--mud-palette-background);
+}
+
+.mud-paper.mud-elevation-0,
+.mud-card {
+    border: 1px solid var(--mud-palette-lines-default);
+}
+
+.mud-paper.mud-elevation-1,
+.mud-paper.mud-elevation-2,
+.mud-card {
+    box-shadow: 0 1px 3px rgba(20, 30, 60, 0.12), 0 1px 2px rgba(20, 30, 60, 0.08);
+}
+
 .page-narrow {
     max-width: 900px;
 }
@@ -43,6 +63,7 @@ pre.code {
     padding: 8px 16px;
     border-bottom: 1px solid var(--mud-palette-lines-default);
     background: var(--mud-palette-surface);
+    box-shadow: 0 1px 3px rgba(20, 30, 60, 0.1);
 }
 
 .write-toolbar .mud-input-control {
@@ -85,6 +106,7 @@ pre.code {
     overflow-y: auto;
     border-left: 1px solid var(--mud-palette-lines-default);
     background: var(--mud-palette-surface);
+    box-shadow: -2px 0 6px rgba(20, 30, 60, 0.08);
 }
 
 .title-row {
