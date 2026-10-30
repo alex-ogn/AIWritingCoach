@@ -1,7 +1,7 @@
 # AI Writing Coach
 
 A web app for AI-assisted English writing practice and proofreading. Write an email or an exam-style task
-(B2 First, C1 Advanced: essay, email/letter, report, review, article, proposal), send it to an LLM for checking
+(A2, B1, B2, C1: essay, email/letter, report, review, article, proposal...), send it to an LLM for checking
 against selectable criteria, and review the corrections in a locally computed diff where every change is linked
 to the AI's explanation and can be accepted or rejected individually.
 
@@ -17,8 +17,6 @@ to the AI's explanation and can be accepted or rejected individually.
   category, subcategory, explanation, severity), vocabulary upgrades with CEFR level, estimated level,
   per-criterion scores (0–5) and overall feedback. Structured JSON output is validated, and invalid answers are
   retried with a repair prompt.
-- **Free models first**: `:free` models with exponential backoff on HTTP 429, automatic fallback to the next model
-  (free → paid) and immediate skip when the daily free quota is exhausted.
 - **Diff view** computed locally with DiffPlex (word level) in two modes: side-by-side (WinMerge style, line-aligned)
   and inline. Clicking a change highlights its explanation and vice versa; accept/reject per change or all at once,
   then apply the result back into the editor.
@@ -109,9 +107,3 @@ dotnet test
 
 "Cambridge-style" rubrics are the author's own descriptions modelled on the publicly known structure of the exams.
 This project is not affiliated with or endorsed by Cambridge University Press & Assessment.
-
-## License
-
-Copyright © 2026 Aleksandra Aleksandrova. **All rights reserved.**
-No license is granted at this time: the source is published for viewing and assessment only. You may not copy,
-modify, distribute or use it without the author's written permission.
